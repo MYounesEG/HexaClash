@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1728546285 source:e:\test codeblocks\mainproject\main.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<ctype.h>
+	"classes.h"
+	"functions.h"
+
+1728546199 e:\test codeblocks\mainproject\classes.h
+
+1728546454 e:\test codeblocks\mainproject\functions.h
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+
