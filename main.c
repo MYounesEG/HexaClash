@@ -7,7 +7,9 @@
 #include "functions.h"
 
 int main(){
-    char senaryoFile[] = "1.json";
+
+
+    char senaryoFile[] = "2.json";
 
     Takim insan_imparatorlugu = {"insan_imparatorlugu"};
     Takim ork_legi = {"ork_legi"};
@@ -16,6 +18,8 @@ int main(){
     readTakim(&ork_legi,senaryoFile);
 
 
-
     return 0;
 }
+
+
+//mun ?   http req ?
