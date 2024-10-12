@@ -1,3 +1,8 @@
+// classes.h
+#ifndef CLASSES_H
+#define CLASSES_H
+
+
 typedef struct Unit{
     char isim[30];
     int saldiri;
@@ -10,32 +15,35 @@ typedef struct Unit{
 
 
 typedef struct Hero{
-    char isim[200];
-    char bonus_turu[200];
+    char isim[100];
+    char bonus_turu[100];
     int bonus_degeri;
-    char etkilenen[200];
+    char etkilenen[100];
 }Hero;
 
 
 typedef struct Monester{
-    char isim[200];
-    char bonus_turu[200];
-    int bonus_degeri;
-    char etkilenen[200];
+    char isim[100];
+    char etki_turu[100];
+    int etki_degeri;
+    char etkilenen[100];
 }Monester;
 
 
+
+
 typedef struct Research{
-    char isim[30];
+    char isim[50];
     int seviye;
     int oran;
-    char etkilenen[30];
+
+    char etkilenen[50];
 
 }Research;
 
 
 typedef struct Takim{
-    char TakimName[20];
+    char TakimName[40];
     Unit birimler[8]; // max birim:8
     int birimSayisi;
     Hero kahramanlar[9]; // max kahraman : 9
@@ -46,3 +54,4 @@ typedef struct Takim{
 }Takim;
 
 
+#endif // CLASSES_H
