@@ -10,9 +10,11 @@
 
 bool in(char str1[],char str2[]);
 void kok(char kelime[]);
-int getValue(char line[]);
+void getWord_S(char line[],char word[]);
+void getWord_F(FILE* f,char word[]);
+int  getValue(char line[]);
 void gotoLine(FILE*f,char line[],int start,char order[]);
-void  gotoChar(FILE*f,char order);
+void gotoChar(FILE*f,char order);
 void nextLine(FILE *f,char line[]);
 void readTakim(Takim* team,char fileName[]);
 
@@ -54,6 +56,7 @@ void kok(char kelime[])
         "Ejderha",
         "Agri_Dagi_Devleri",
         "Tepegoz",
+        "Karakurt",
         "Samur",
         "Kara_Troll",
         "Golge_Kurtlari",
@@ -61,13 +64,17 @@ void kok(char kelime[])
         "Ates_Iblisi",
         "Makrog_Savas_Beyi",
         "Buz_Devleri",
+        "savunma_ustaligi",
+        "saldiri_gelistirmesi",
+        "elit_egitim",
+        "kusatma_ustaligi",
         "savunma",
         "saldiri",
+        "hasar",
         "kritik"
     };
 
 
-    printf("\nkok(%s)\n\n",kelime);
     kelime[0]=tolower(kelime[0]);
     for (int i = 0; i < sizeof(words) / sizeof(words[0]); i++)
     {
@@ -77,6 +84,18 @@ void kok(char kelime[])
             return ;
         }
     }
+    printf("COUNDT found this word (%s)!\n",kelime);
+}
+
+void getWord_S(char line[],char word[])
+{
+    sscanf(line,"%s",word);
+    kok(word);
+}
+void getWord_F(FILE* f,char word[])
+{
+    fscanf(f,"%s",word);
+    kok(word);
 }
 
 int getValue(char line[])
@@ -118,7 +137,7 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
 
         nextLine(f,line);
     }
-    while(!in(line,order));
+    while(!in(line,order)&&!feof(f));
 }
 
 
@@ -151,9 +170,7 @@ void readTakim(Takim* team,char fileName[])
         team->birimSayisi = 0;
         do
         {
-            sscanf(line,"%s",team->birimler[team->birimSayisi].isim);
-
-            kok(team->birimler[team->birimSayisi].isim);
+            getWord_S(line,team->birimler[team->birimSayisi].isim);
             team->birimler[team->birimSayisi].sayi=getValue(line);
             team->birimSayisi++;
             nextLine(f,line);
@@ -175,12 +192,14 @@ void readTakim(Takim* team,char fileName[])
 
         for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
         {
-            sscanf(part,"%s",team->kahramanlar[team->kahramanSayisi].isim);
-            kok(team->kahramanlar[team->kahramanSayisi++].isim);
+            getWord_S(part,team->kahramanlar[team->kahramanSayisi].isim);
+
+            team->kahramanSayisi++;
         }
 
-        readKahraman(team);
-
+        if(team->kahramanSayisi!=0)
+            readKahraman(team); // kahraman varsa bilgilerini dosyadan cek
+/*
         printf("kahrman sayisi = %d\n",team->kahramanSayisi);
         for(int i=0; i<team->kahramanSayisi; i++)
         {
@@ -188,7 +207,7 @@ void readTakim(Takim* team,char fileName[])
             printf("%s--\n",team->kahramanlar[i].bonus_turu);
             printf("%d--\n",team->kahramanlar[i].bonus_degeri);
             printf("%s--\n",team->kahramanlar[i].etkilenen);
-        }
+        }*/
     }
 
     fseek(f,startIndex,SEEK_SET);
@@ -203,12 +222,12 @@ void readTakim(Takim* team,char fileName[])
 
         for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
         {
-            sscanf(part,"%s",team->canavarlar[team->canavarSayisi].isim);
-            kok(team->canavarlar[team->canavarSayisi].isim);
+            getWord_S(part,team->canavarlar[team->canavarSayisi].isim);
             team->canavarSayisi++;
 
         }
-        readCanavar(team);
+        if(team->canavarSayisi!=0)
+            readCanavar(team); // canavar varsa bilgilerini dosyadan cek
     }
 
     fseek(f,startIndex,SEEK_SET);
@@ -220,8 +239,10 @@ void readTakim(Takim* team,char fileName[])
 
         nextLine(f,line);
 
-        kok(team->arastirma_seviyesi.isim);
+        getWord_S(line,team->arastirma_seviyesi.isim);
+
         team->arastirma_seviyesi.seviye=getValue(line);
+
         readArastirma_seviyesi(team);
     }
 
