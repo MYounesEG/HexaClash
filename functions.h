@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "classes.h"
+#include "readfunctions.h"
 
-//define like this
-//readKahraman(Takim* team);
+#define lineSize 200
 
 
 bool in(char str1[],char str2[]);
 void kok(char kelime[]);
 int getValue(char line[]);
-void gotoInFile(FILE*f,char line[],int start,char order[]);
+void gotoLine(FILE*f,char line[],int start,char order[]);
+void  gotoChar(FILE*f,char order);
+void nextLine(FILE *f,char line[]);
 void readTakim(Takim* team,char fileName[]);
 
 
@@ -22,8 +25,14 @@ bool in(char str1[],char str2[])
 
 }
 
-void kok(char kelime[]){ // kelimenin kokunu bulmak
-    char words[][20]={
+//rt
+void kok(char kelime[])
+{
+    // kelimenin kokunu bulmak
+
+
+    char words[][30]=
+    {
         "tum",
         "piyade",
         "okcu",
@@ -42,111 +51,175 @@ void kok(char kelime[]){ // kelimenin kokunu bulmak
         "Thruk_Kemikkiran",
         "Vrog_Kafakiran",
         "Ugar_Zalim",
+        "Ejderha",
+        "Agri_Dagi_Devleri",
+        "Tepegoz",
+        "Samur",
+        "Kara_Troll",
+        "Golge_Kurtlari",
+        "Camur_Devleri",
+        "Ates_Iblisi",
+        "Makrog_Savas_Beyi",
+        "Buz_Devleri",
         "savunma",
-        "saldiri"};
+        "saldiri",
+        "kritik"
+    };
 
 
-        kelime[0]=tolower(kelime[0]);
-        for (int i=0;i<sizeof(words)/20;i++)
-            if(strstr(kelime,words[i]))
-                strcpy(kelime,words[i]);
-
+    printf("\nkok(%s)\n\n",kelime);
+    kelime[0]=tolower(kelime[0]);
+    for (int i = 0; i < sizeof(words) / sizeof(words[0]); i++)
+    {
+        if (strstr(kelime, words[i]))
+        {
+            strcpy(kelime, words[i]);  // kelimeyi sadece eşleşen kısım ile değiştir
+            return ;
+        }
     }
+}
 
-int getValue(char line[]){
-    for (int i=0;i<strlen(line);i++)
+int getValue(char line[])
+{
+    for (int i=0; i<strlen(line); i++)
         if(isdigit(line[i]))
             return atoi(line+i);
 }
 
+void nextLine(FILE *f,char line[])
+{
+    fgets(line,lineSize,f);
+}
+void gotoChar(FILE*f,char order)
+{
+    fgetc(f);
+    while(fgetc(f)!=order);
 
+    /*
 
-void gotoInFile(FILE*f,char line[],int start,char order[]){
+    char karakter;
 
-    fseek(f,start,SEEK_SET);
-    do{
-        fgets(line,sizeof(200),f);
-    }while(!in(line,order));
+    karakter = fgetc(f);
 
+    while(karakter!=order)
+        karakter = fgetc(f);
+
+    return;
+
+    */
 }
 
-void readTakim(Takim* team,char fileName[]){
-    FILE* f ;
+void gotoInFile(FILE*f,char line[],int start,char order[])
+{
+    fseek(f,start,SEEK_SET);
+
+    do
+    {
+
+        nextLine(f,line);
+    }
+    while(!in(line,order));
+}
+
+
+void readTakim(Takim* team,char fileName[])
+{
+
+    FILE* f=fopen(fileName,"r");
     char* part;
 
-    char line [200]={0};
+    char line [lineSize]= {0};
 
-    if (f=fopen(fileName,"r"))
+    if (f==NULL)
     {
         printf("Failed open %s",fileName);
         exit(1);
     }
 
-    gotoInFile(f,line,0,team->TakimName);
 
+    gotoInFile(f,line,0,team->TakimName);
 
 
     int startIndex = ftell(f);
 
-    {//birimler
+    {
+        //birimler
 
         gotoInFile(f,line,startIndex,"birimler");
+        nextLine(f,line);
 
-        team.birimSayisi = 0;
-        do{
-            fgets(line,sizeof(200),f);
-            sscanf(line,"%s" ,team->birimler[0].isim);
-            kok(team->birimler[team.birimSayisi].isim);
-            team->birimler[team.birimSayisi].sayi=getValue(line);
-            team.birimSayisi++;
+        team->birimSayisi = 0;
+        do
+        {
+            sscanf(line,"%s",team->birimler[team->birimSayisi].isim);
 
-        }while(!in(line,"}")); // stop when find the end of birimler block
+            kok(team->birimler[team->birimSayisi].isim);
+            team->birimler[team->birimSayisi].sayi=getValue(line);
+            team->birimSayisi++;
+            nextLine(f,line);
+////next line
+        }
+        while(!in(line,"}"));  // stop when find the end of birimler block
 
 
-        readBirim(team);
+        readBirim(team);//kutucuk
     }
 
-    {//kahramanlar
+    {
+        //kahramanlar
 
         gotoInFile(f,line,startIndex,"kahramanlar");
 
-        team.kahramanSayisi = 0;
+        team->kahramanSayisi = 0;
 
 
-        for(  part = strstr(line,"\"") ; part!=NULL ; part = strstr(part+1,"\"") , team.kahramanSayisi++){
-            scanf(part,"%s",team->kahramanlar[team.kahramanSayisi].isim);
-            kok(team->kahramanlar[team.kahramanSayisi].isim);
-
+        for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
+        {
+            sscanf(part,"%s",team->kahramanlar[team->kahramanSayisi].isim);
+            kok(team->kahramanlar[team->kahramanSayisi++].isim);
         }
+
         readKahraman(team);
+
+        printf("kahrman sayisi = %d\n",team->kahramanSayisi);
+        for(int i=0; i<team->kahramanSayisi; i++)
+        {
+            printf("%s--\n",team->kahramanlar[i].isim);
+            printf("%s--\n",team->kahramanlar[i].bonus_turu);
+            printf("%d--\n",team->kahramanlar[i].bonus_degeri);
+            printf("%s--\n",team->kahramanlar[i].etkilenen);
+        }
     }
 
     fseek(f,startIndex,SEEK_SET);
 
-    {//canavarlar
+    {
+        //canavarlar
 
         gotoInFile(f,line,startIndex,"canavarlar");
 
-        team.canavarSayisi = 0;
+        team->canavarSayisi = 0;
         //char* part; // daha onceden tanimlandi
 
-        for(  part = strstr(line,"\"") ; part!=NULL ; part = strstr(part+1,"\"") , team.canavarSayisi++){
-            scanf(part,"%s",team->canavarlar[team.canavarSayisi].isim);
-            kok(team->canavarlar[team.canavarSayisi].isim);
+        for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
+        {
+            sscanf(part,"%s",team->canavarlar[team->canavarSayisi].isim);
+            kok(team->canavarlar[team->canavarSayisi].isim);
+            team->canavarSayisi++;
 
         }
         readCanavar(team);
     }
 
     fseek(f,startIndex,SEEK_SET);
-    {//arastirma sevyesi
+
+    {
+        //arastirma sevyesi
 
         gotoInFile(f,line,startIndex,"arastirma_seviyesi");
 
+        nextLine(f,line);
 
-        fgets(line,sizeof(200),f);
-
-        sscanf(line,"%s",team->arastirma_seviyesi.isim);
         kok(team->arastirma_seviyesi.isim);
         team->arastirma_seviyesi.seviye=getValue(line);
         readArastirma_seviyesi(team);
