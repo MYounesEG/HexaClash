@@ -146,6 +146,11 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
 
 void downloadFile(int SenarioNumber,char senaryoFile[])
 {
+    if (!(SenarioNumber<=10&&SenarioNumber>=1))
+    {
+        printf("Plase Enter a vailed number ! \n\t\tExiting.....\n\n");
+        exit(1);
+    }
     sprintf(senaryoFile,"%d.json",SenarioNumber);
 
     char downloadCommand [50]= {0};
