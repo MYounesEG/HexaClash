@@ -8,16 +8,18 @@
 #define lineSize 200
 
 
-bool in(char str1[],char str2[]);
-void kok(char kelime[]);
-void getWord_S(char line[],char word[]);
-void getWord_F(FILE* f,char word[]);
-int  getValue(char line[]);
-void gotoLine(FILE*f,char line[],int start,char order[]);
-void gotoChar(FILE*f,char order);
-void nextLine(FILE *f,char line[]);
-void downloadFile(int SenarioNumber,char fileName[]);
-void readTakim(Takim* team,char fileName[]);
+bool in(char str1[],char str2[]);                            // return True if the str2 in str1
+void root(char kelime[]);                                    // change the word for the original status
+void getWord_S(char line[],char word[]);                     // get the first word in line
+void getWord_F(FILE* f,char word[]);                         // gets the first word from the cursor position
+int  getValue(char line[]);                                  // return the integer value of the number in the line
+void gotoLine(FILE*f,char line[],int start,char order[]);    // go to the line where include the "order" (not : searching will start from the "start" point in the file)
+void gotoChar(FILE*f,char order);                            // get the cursor to the place of "order" (not : searching will start from the cursor position)
+void nextLine(FILE *f,char line[]);                          // get the next
+void downloadFile(int SenarioNumber,char fileName[]);        // download the scenario file using the number
+void deleteFile(char senaryoFile[]);                         // deleting file the scenario file using the fileName
+void readTakim(Takim* team,char fileName[]);                 // reading all the team informations from the scenario file
+
 
 
 bool in(char str1[],char str2[])
@@ -28,8 +30,7 @@ bool in(char str1[],char str2[])
 
 }
 
-//rt
-void kok(char kelime[])
+void root(char kelime[])
 {
     // kelimenin kokunu bulmak
 
@@ -91,12 +92,13 @@ void kok(char kelime[])
 void getWord_S(char line[],char word[])
 {
     sscanf(line,"%s",word);
-    kok(word);
+    root(word);
 }
+
 void getWord_F(FILE* f,char word[])
 {
     fscanf(f,"%s",word);
-    kok(word);
+    root(word);
 }
 
 int getValue(char line[])
@@ -110,6 +112,7 @@ void nextLine(FILE *f,char line[])
 {
     fgets(line,lineSize,f);
 }
+
 void gotoChar(FILE*f,char order)
 {
     fgetc(f);
@@ -150,13 +153,14 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
 
     system(downloadCommand);
 }
-void deleteFile(char senaryoFile[]){
+
+void deleteFile(char senaryoFile[])
+{
     char deleteCommand [10]= {0};
     sprintf(deleteCommand,"del %s",senaryoFile);
 
     system(deleteCommand);
 }
-
 
 void readTakim(Takim* team,char fileName[])
 {

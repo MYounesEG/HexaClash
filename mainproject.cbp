@@ -32,14 +32,15 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="classes.h" />
-		<Unit filename="creatures.json" />
 		<Unit filename="functions.h" />
-		<Unit filename="heroes.json" />
+		<Unit filename="json/creatures.json" />
+		<Unit filename="json/heroes.json" />
+		<Unit filename="json/research.json" />
+		<Unit filename="json/unit_types.json" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="research.json" />
-		<Unit filename="unit_types.json" />
+		<Unit filename="readfunctions.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

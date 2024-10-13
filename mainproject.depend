@@ -15,3 +15,29 @@
 	<string.h>
 	<ctype.h>
 
+1728832370 source:c:\users\administrator\downloads\test\main.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<ctype.h>
+	"classes.h"
+	"functions.h"
+
+1728832370 c:\users\administrator\downloads\test\classes.h
+
+1728834497 c:\users\administrator\downloads\test\functions.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"classes.h"
+	"readfunctions.h"
+
+1728834260 c:\users\administrator\downloads\test\readfunctions.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"classes.h"
+

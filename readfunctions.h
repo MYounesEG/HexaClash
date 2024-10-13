@@ -19,7 +19,7 @@ void readKahraman(Takim* team)
     if(kahramanFile==NULL){
         printf("Failed open %s","heroes.json");
         exit(1);
-    }else printf("opened %s secsfuly!\n","heroes.json");
+    }
 
     char line[lineSize]= {0};
 
@@ -84,7 +84,7 @@ void readCanavar(Takim* team)
 
 void readBirim(Takim* team)
 {
-    FILE* birimFile = fopen("\\json\\unit_types.json","r");
+    FILE* birimFile = fopen("json/unit_types.json","r");
      if(birimFile==NULL)    {
         printf("Failed open %s","unit_types.json");
         exit(1);
