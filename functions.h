@@ -16,6 +16,7 @@ int  getValue(char line[]);
 void gotoLine(FILE*f,char line[],int start,char order[]);
 void gotoChar(FILE*f,char order);
 void nextLine(FILE *f,char line[]);
+void downloadFile(int SenarioNumber,char fileName[]);
 void readTakim(Takim* team,char fileName[]);
 
 
@@ -140,6 +141,22 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
     while(!in(line,order)&&!feof(f));
 }
 
+void downloadFile(int SenarioNumber,char senaryoFile[])
+{
+    sprintf(senaryoFile,"%d.json",SenarioNumber);
+
+    char downloadCommand [50]= {0};
+    sprintf(downloadCommand,"curl https://yapbenzet.org.tr/%s -o %s",senaryoFile,senaryoFile);
+
+    system(downloadCommand);
+}
+void deleteFile(char senaryoFile[]){
+    char deleteCommand [10]= {0};
+    sprintf(deleteCommand,"del %s",senaryoFile);
+
+    system(deleteCommand);
+}
+
 
 void readTakim(Takim* team,char fileName[])
 {
@@ -199,15 +216,7 @@ void readTakim(Takim* team,char fileName[])
 
         if(team->kahramanSayisi!=0)
             readKahraman(team); // kahraman varsa bilgilerini dosyadan cek
-/*
-        printf("kahrman sayisi = %d\n",team->kahramanSayisi);
-        for(int i=0; i<team->kahramanSayisi; i++)
-        {
-            printf("%s--\n",team->kahramanlar[i].isim);
-            printf("%s--\n",team->kahramanlar[i].bonus_turu);
-            printf("%d--\n",team->kahramanlar[i].bonus_degeri);
-            printf("%s--\n",team->kahramanlar[i].etkilenen);
-        }*/
+
     }
 
     fseek(f,startIndex,SEEK_SET);
