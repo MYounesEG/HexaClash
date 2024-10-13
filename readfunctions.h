@@ -15,7 +15,7 @@ void readArastirma_seviyesi(Takim* team);
 void readKahraman(Takim* team)
 {
 
-    FILE* kahramanFile = fopen("heroes.json","r");
+    FILE* kahramanFile = fopen("json/heroes.json","r");
     if(kahramanFile==NULL){
         printf("Failed open %s","heroes.json");
         exit(1);
@@ -48,7 +48,7 @@ void readKahraman(Takim* team)
 
 void readCanavar(Takim* team)
 {
-    FILE* canavarFile = fopen("creatures.json","r");
+    FILE* canavarFile = fopen("json/creatures.json","r");
 
         if(canavarFile==NULL)    {
         printf("Failed open %s","creatures.json");
@@ -84,7 +84,7 @@ void readCanavar(Takim* team)
 
 void readBirim(Takim* team)
 {
-    FILE* birimFile = fopen("unit_types.json","r");
+    FILE* birimFile = fopen("\\json\\unit_types.json","r");
      if(birimFile==NULL)    {
         printf("Failed open %s","unit_types.json");
         exit(1);
@@ -118,7 +118,7 @@ void readBirim(Takim* team)
 
 void readArastirma_seviyesi(Takim* team)
 {
-    FILE* ArastirmaFile = fopen("research.json","r");
+    FILE* ArastirmaFile = fopen("json/research.json","r");
 
          if(ArastirmaFile==NULL)    {
         printf("Failed open %s","research.json");
