@@ -44,8 +44,8 @@
         },
         "Ates_Iblisi": {
             "etki_degeri": "30",
-            "etki_turu": "hasar",
-            "aciklama": "suvarilerinin %30 fazladan hasar verir."
+            "etki_turu": "saldiri",
+            "aciklama": "suvarilerinin %30 fazladan saldiri verir."
         },
         "Makrog_Savas_Beyi": {
             "etki_degeri": "25",
