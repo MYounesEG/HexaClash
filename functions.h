@@ -72,7 +72,6 @@ void root(char kelime[])
         "kusatma_ustaligi",
         "savunma",
         "saldiri",
-        "hasar",
         "kritik"
     };
 

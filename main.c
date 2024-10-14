@@ -9,7 +9,9 @@
 int main()
 {
     int SenarioNumber;
+
     char senaryoFile[10] = {0};
+
     printf("Enter Nerario number : ");
     scanf("%d",&SenarioNumber);
 
@@ -22,6 +24,13 @@ int main()
     readTakim(&insan_imparatorlugu,senaryoFile);
     printf("\n\n\n\n\n\n\n----------------------------------------------------------------------------\n\n\n\n\n\n\n");
     readTakim(&ork_legi,senaryoFile);
+
+
+/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
+/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
+/**/FIGHT(insan_imparatorlugu,ork_legi);/**//**//**//**//**//**/
+/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
+/**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
 
     deleteFile(senaryoFile);

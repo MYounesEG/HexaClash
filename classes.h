@@ -51,6 +51,7 @@ typedef struct Takim{
     Monester canavarlar[11]; // max canavar :11
     int canavarSayisi;
     Research arastirma_seviyesi; // sadece bir tan olabilir
+    int totalHealth;
 }Takim;
 
 
