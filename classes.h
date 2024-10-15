@@ -52,6 +52,8 @@ typedef struct Takim{
     int canavarSayisi;
     Research arastirma_seviyesi; // sadece bir tan olabilir
     int totalHealth;
+    int totalAct;
+    int totalDefence;
 }Takim;
 
 
