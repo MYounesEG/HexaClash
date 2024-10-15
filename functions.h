@@ -9,6 +9,7 @@
 
 
 bool in(char str1[],char str2[]);                            // return True if the str2 in str1
+bool inFile(FILE* f,char str1[]);
 void root(char kelime[]);                                    // change the word for the original status
 void getWord_S(char line[],char word[]);                     // get the first word in line
 void getWord_F(FILE* f,char word[]);                         // gets the first word from the cursor position
@@ -27,6 +28,26 @@ bool in(char str1[],char str2[])
     if(strstr(str1,str2)!=NULL)
         return true;
     return false;
+
+}
+
+bool inFile(FILE* f,char str1[])
+{
+    fseek(f,0,SEEK_SET);
+    char line[lineSize]= {0};
+    fgets(line,lineSize,f);
+    do
+    {
+
+        if(in(line,str1))
+
+            return true;
+
+    }
+    while(feof(f));
+
+    return false;
+
 
 }
 
@@ -117,18 +138,6 @@ void gotoChar(FILE*f,char order)
     fgetc(f);
     while(fgetc(f)!=order);
 
-    /*
-
-    char karakter;
-
-    karakter = fgetc(f);
-
-    while(karakter!=order)
-        karakter = fgetc(f);
-
-    return;
-
-    */
 }
 
 void gotoInFile(FILE*f,char line[],int start,char order[])
@@ -140,7 +149,7 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
 
         nextLine(f,line);
     }
-    while(!in(line,order)&&!feof(f));
+    while(!in(line,order));
 }
 
 void downloadFile(int SenarioNumber,char senaryoFile[])
@@ -199,7 +208,6 @@ void readTakim(Takim* team,char fileName[])
             team->birimler[team->birimSayisi].sayi=getValue(line);
             team->birimSayisi++;
             nextLine(f,line);
-////next line
         }
         while(!in(line,"}"));  // stop when find the end of birimler block
 
@@ -207,12 +215,13 @@ void readTakim(Takim* team,char fileName[])
         readBirim(team);//kutucuk
     }
 
+    team->kahramanSayisi = 0;
+    if(inFile(f,"kahramanlar"))
     {
         //kahramanlar
 
         gotoInFile(f,line,startIndex,"kahramanlar");
 
-        team->kahramanSayisi = 0;
 
 
         for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
@@ -228,13 +237,13 @@ void readTakim(Takim* team,char fileName[])
     }
 
     fseek(f,startIndex,SEEK_SET);
-
+    team->canavarSayisi = 0;
+    if(inFile(f,"canavarlar"))
     {
         //canavarlar
 
         gotoInFile(f,line,startIndex,"canavarlar");
 
-        team->canavarSayisi = 0;
         //char* part; // daha onceden tanimlandi
 
         for(  part = strstr(line,"[") ; part!=NULL ; part = strstr(part+1," \""))
@@ -249,6 +258,7 @@ void readTakim(Takim* team,char fileName[])
 
     fseek(f,startIndex,SEEK_SET);
 
+    if(inFile(f,"arastirma_seviyesi"))
     {
         //arastirma sevyesi
 
