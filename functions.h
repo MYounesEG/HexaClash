@@ -258,7 +258,6 @@ void readTakim(Takim* team,char fileName[])
 
     fseek(f,startIndex,SEEK_SET);
 
-    if(inFile(f,"arastirma_seviyesi"))
     {
         //arastirma sevyesi
 
