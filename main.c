@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "classes.h"
 #include "functions.h"
+#include "gameInterface.h"
 
 int main()
 {
@@ -26,13 +27,20 @@ int main()
     readTakim(&ork_legi,senaryoFile);
 
 
+    printf("SHOWING THE GRAFIK !\n");
+    printf("SHOWING THE GRAFIK !\n");
+    printf("SHOWING THE GRAFIK !\n");
+    printf("SHOWING THE GRAFIK !\n");
+    grafik(insan_imparatorlugu,ork_legi);
+
+
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
-/**/FIGHT(insan_imparatorlugu,ork_legi);/**//**//**//**//**//**/
+/**///FIGHT(insan_imparatorlugu,ork_legi);/**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-
+    //grafik(insan_imparatorlugu,ork_legi);
     deleteFile(senaryoFile);
 
 

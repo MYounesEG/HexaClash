@@ -9,14 +9,14 @@
 
 
 bool in(char str1[],char str2[]);                            // return True if the str2 in str1
-bool inFile(FILE* f,char str1[]);
+bool inFile(FILE* f,char str1[]);                            // check if the word is it in file  
 void root(char kelime[]);                                    // change the word for the original status
 void getWord_S(char line[],char word[]);                     // get the first word in line
 void getWord_F(FILE* f,char word[]);                         // gets the first word from the cursor position
 int  getValue(char line[]);                                  // return the integer value of the number in the line
 void gotoLine(FILE*f,char line[],int start,char order[]);    // go to the line where include the "order" (not : searching will start from the "start" point in the file)
 void gotoChar(FILE*f,char order);                            // get the cursor to the place of "order" (not : searching will start from the cursor position)
-void nextLine(FILE *f,char line[]);                          // get the next
+void nextLine(FILE *f,char line[]);                          // get the next line
 void downloadFile(int SenarioNumber,char fileName[]);        // download the scenario file using the number
 void deleteFile(char senaryoFile[]);                         // deleting file the scenario file using the fileName
 void readTakim(Takim* team,char fileName[]);                 // reading all the team informations from the scenario file
@@ -31,24 +31,17 @@ bool in(char str1[],char str2[])
 
 }
 
-bool inFile(FILE* f,char str1[])
-{
-    fseek(f,0,SEEK_SET);
-    char line[lineSize]= {0};
-    fgets(line,lineSize,f);
-    do
-    {
+bool inFile(FILE* f, char str1[]) {
+    fseek(f, 0, SEEK_SET);
+    char line[lineSize] = {0};
 
-        if(in(line,str1))
-
-            return true;
-
+    while (fgets(line, lineSize, f) != NULL) {
+        if (in(line, str1)) {
+            return true; // word found
+        }
     }
-    while(feof(f));
 
-    return false;
-
-
+    return false; // word not found
 }
 
 void root(char kelime[])
@@ -258,6 +251,7 @@ void readTakim(Takim* team,char fileName[])
 
     fseek(f,startIndex,SEEK_SET);
 
+    if(inFile(f,"arastirma_seviyesi"))
     {
         //arastirma sevyesi
 
