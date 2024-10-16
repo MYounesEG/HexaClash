@@ -12,8 +12,8 @@
         },
         "Tepegoz": {
             "etki_degeri": "25",
-            "etki_turu": "hasar",
-            "aciklama": "ork_dovusculerinin %25 fazladan hasar verir."
+            "etki_turu": "saldiri",
+            "aciklama": "okculara %25 saldiri gucunu artirir."
         },
         "Karakurt": {
             "etki_degeri": "10",
