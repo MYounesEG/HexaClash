@@ -17,7 +17,7 @@
         },
         "Karakurt": {
             "etki_degeri": "10",
-            "etki_turu": "kritik",
+            "etki_turu": "kritik_sans",
             "aciklama": "okculara %10 kritik vurus sansi saglar."
         },
         "Samur": {
@@ -45,17 +45,17 @@
         "Ates_Iblisi": {
             "etki_degeri": "30",
             "etki_turu": "saldiri",
-            "aciklama": "suvarilerinin %30 fazladan saldiri verir."
+            "aciklama": "varg_binicilerin saldiri gucunu %30 artirir."
         },
         "Makrog_Savas_Beyi": {
             "etki_degeri": "25",
             "etki_turu": "savunma",
-            "aciklama": "Trollerin savunma gucunu %25 artirir."
+            "aciklama": "trollerin savunma gucunu %25 artirir."
         },
         "Buz_Devleri": {
             "etki_degeri": "15",
             "etki_turu": "savunma",
-            "aciklama": "okcularin savunmasini %15 artirir."
+            "aciklama": "mizrakcilarin savunmasini %15 artirir."
         }
     }
 }
