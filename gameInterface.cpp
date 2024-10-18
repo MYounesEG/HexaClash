@@ -83,7 +83,7 @@ void putImge(int mode, Unit birim, std::vector<sf::Sprite>& images, std::vector<
     int randomX = rand() % (5) + (mode == 1 ? 0 : 5);
     int randomY = rand() % 10;
 
-    for (int i = 0; i < birim.sayi / 100; i++)
+    for (int i = 0; i < birim.sayi / 100.0; i++)
     {
         while (Positions[randomX][randomY])
         {
@@ -98,9 +98,7 @@ void putImge(int mode, Unit birim, std::vector<sf::Sprite>& images, std::vector<
     }
 }
 
-
-
-int grafik(Takim insan_imparatorlugu,Takim ork_legi)
+int grafik(Takim insan_imparatorlugu, Takim ork_legi)
 {
     {
         srand(time(0));
@@ -109,53 +107,41 @@ int grafik(Takim insan_imparatorlugu,Takim ork_legi)
 
         std::vector<sf::CircleShape> hexagons;
 
-        // Reduce offsetX and offsetY more to push grid to the top-left corner
         float offsetX = window.getSize().x / 3.8;  // Shift more to the left
-        float offsetY = window.getSize().y / 15;  // Shift more upwards
+        float offsetY = window.getSize().y / 15;   // Shift more upwards
         float extraSpacing;
+
         // Generate hexagons in a rectangular grid (10x10)
-// Generate hexagons in a rectangular grid (10x10)
         for (int q = 0; q < 10; ++q)    // Columns
         {
             for (int r = 0; r < 10; ++r)    // Rows
             {
                 extraSpacing = 0.0f;
 
-                // Add extra spacing after the 5th row
                 if (q >= 5)
                 {
                     extraSpacing = 50.0f;  // Adjust this value to control the space between the two sets of rows
                 }
 
-                // Calculate the hexagon's position with the additional spacing applied
                 sf::Vector2f pos = hexToPixel(q, r, offsetX + extraSpacing, offsetY);
                 hexagons.push_back(createHexagon(pos.x, pos.y)); // Add hexagon to vector
             }
         }
 
-
-        // Load multiple PNG images for the sprites
-        float hexInnerRadius = HEX_SIZE * std::sqrt(3) / 2.0f;  // Inner radius of the hexagon (height-wise)
-        float scaleFactor = hexInnerRadius / 128.0f;  // Assume original size of the image is 256x256 pixels
-
-
-
-
-
+        float hexInnerRadius = HEX_SIZE * std::sqrt(3) / 2.0f;
+        float scaleFactor = hexInnerRadius / 128.0f;
 
         int Positions[10][10] = {0};
         std::vector<sf::Sprite> images;
-        std::vector<bool> isEnlarged;  // Track whether each image is enlarged
+        std::vector<bool> isEnlarged;
 
         for (int i = 0; i < insan_imparatorlugu.birimSayisi; i++)
             putImge(1, insan_imparatorlugu.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
 
-
-
         for (int i = 0; i < ork_legi.birimSayisi; i++)
             putImge(2, ork_legi.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
 
-        // Load the background image
+        // Load background image
         sf::Texture backgroundTexture;
         if (!backgroundTexture.loadFromFile("images/background_image.png"))
         {
@@ -165,13 +151,12 @@ int grafik(Takim insan_imparatorlugu,Takim ork_legi)
         sf::Sprite backgroundSprite;
         backgroundSprite.setTexture(backgroundTexture);
 
-        // Scale the background to fit the window
         backgroundSprite.setScale(
             window.getSize().x / backgroundSprite.getLocalBounds().width,
             window.getSize().y / backgroundSprite.getLocalBounds().height
         );
 
-        // set monester image !!!
+        // Load monster image
         sf::Texture monsterTexture;
         if (!monsterTexture.loadFromFile("images/monster_image.png"))
         {
@@ -179,84 +164,101 @@ int grafik(Takim insan_imparatorlugu,Takim ork_legi)
             return -1;
         }
 
-        // Create a sprite for the monster and position it outside the grid
         sf::Sprite monsterSprite;
         monsterSprite.setTexture(monsterTexture);
+        monsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
 
-        // Make the monster image bigger by adjusting the scale factor
-        monsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);  // Double the size of the monster
-
-        // Position the monster to the right of the grid (adjust offset as needed)
-        float monsterPosX = offsetX + window.getSize().x / 1.8f; // Position the monster further to the right
-        float monsterPosY = offsetY + window.getSize().y / 2.5f; // Adjust the Y position as needed
-
+        float monsterPosX = offsetX + window.getSize().x / 1.9f;
+        float monsterPosY = offsetY + window.getSize().y / 1.8f;
         monsterSprite.setPosition(monsterPosX, monsterPosY);
 
-
-
-// Health bar variables
-        std::vector<sf::RectangleShape> healthBars(NUM_HEALTH_BARS);
-        std::vector<sf::RectangleShape> emptyBars(NUM_HEALTH_BARS); // Empty part of the health bar
-
-        std::vector<int> healths = {10,80,50,90,60,25,40,16};
+        // Split health bars into two vectors (human and orc)
+        std::vector<sf::RectangleShape> humanHealthBars(4);
+        std::vector<sf::RectangleShape> humanEmptyBars(4);
+        std::vector<sf::RectangleShape> orcHealthBars(4);
+        std::vector<sf::RectangleShape> orcEmptyBars(4);
 
         float barWidth = 200.0f;
         float barHeight = 20.0f;
-        float barSpacing = 50.0f;  // Increased spacing between health bars
+        float barSpacing = 50.0f;
 
-        for (int i = 0; i < NUM_HEALTH_BARS; ++i)
+        // List of small images representing each unit's health bar
+        std::vector<sf::Sprite> unitIcons(8);
+        std::vector<sf::Texture> iconTextures(8);
+
+// Set the position of health bars and icons
+        for (int i = 0; i < 8; ++i)
         {
+            // Load image representing the unit
+            std::string iconPath = "images/"+(std::string)((i<4)?insan_imparatorlugu.birimler[i].isim:ork_legi.birimler[i%4].isim)+".png";
+            if (!iconTextures[i].loadFromFile(iconPath))
+            {
+                std::cerr << "Error loading icon: " << iconPath << std::endl;
+                printf("(%s)",(std::string)((i<4)?insan_imparatorlugu.birimler[i].isim:ork_legi.birimler[i%4].isim));
+                exit(-1);
+            }
+
+            // Set the sprite texture
+            unitIcons[i].setTexture(iconTextures[i]);
+            unitIcons[i].setScale(0.2f, 0.2f);  // Scale down the icons
+
+            // Determine which vector to use (human or orc)
+            std::vector<sf::RectangleShape>& healthBars = (i < 4) ? humanHealthBars : orcHealthBars;
+            std::vector<sf::RectangleShape>& emptyBars = (i < 4) ? humanEmptyBars : orcEmptyBars;
+
+            // Get health from team members
+            float healthValue = ((i < 4) ? insan_imparatorlugu.birimler[i].sayi : ork_legi.birimler[i - 4].sayi) / 230.0 * 100;   /////////////////////////////////////////
+            printf("%f\n",healthValue);
             // Set the size and color of the filled portion of the health bar
-            healthBars[i].setSize(sf::Vector2f(barWidth, barHeight)); // Set size of the health bar
+            healthBars[i % 4].setSize(sf::Vector2f(barWidth, barHeight));
 
-            if (healths[i]>50)
-                healthBars[i].setFillColor(sf::Color(0, 255, 47)); // Set health bar color to green
-            else if(healths[i]>20)
-                healthBars[i].setFillColor(sf::Color(234, 255, 0)); // Set health bar color to yellow
+            if (healthValue > 50)
+                healthBars[i % 4].setFillColor(sf::Color(0, 255, 47)); // Green for high health
+            else if (healthValue > 20)
+                healthBars[i % 4].setFillColor(sf::Color(234, 255, 0)); // Yellow for mid health
             else
-                healthBars[i].setFillColor(sf::Color(255, 0, 4)); // Set health bar color to red
+                healthBars[i % 4].setFillColor(sf::Color(255, 0, 4)); // Red for low health
 
-            // Set the size and color of the empty portion of the health bar
-            emptyBars[i].setSize(sf::Vector2f(barWidth, barHeight)); // Same size as the health bar
-            emptyBars[i].setFillColor(sf::Color(128, 128, 128)); // Gray color for the empty portion
+            emptyBars[i % 4].setSize(sf::Vector2f(barWidth, barHeight));
+            emptyBars[i % 4].setFillColor(sf::Color(128, 128, 128));
 
-            // Add outline to health bars
-            healthBars[i].setOutlineColor(sf::Color::Black); // Set outline color to black
-            healthBars[i].setOutlineThickness(2.0f); // Set outline thickness to 2 pixels
+            healthBars[i % 4].setOutlineColor(sf::Color::Black);
+            healthBars[i % 4].setOutlineThickness(2.0f);
 
-            // Add outline to empty bars as well
-            emptyBars[i].setOutlineColor(sf::Color::Black);
-            emptyBars[i].setOutlineThickness(2.0f);
+            emptyBars[i % 4].setOutlineColor(sf::Color::Black);
+            emptyBars[i % 4].setOutlineThickness(2.0f);
 
-            if (i < 4)
+            // Position the health bars and icons
+            if (i >= 4)  // Now place orc health bars on the right side
             {
-                // Position the first 4 health bars on the right
-                float barX = window.getSize().x - barWidth - 50; // 50 px padding from the right side
-                float barY = offsetY + i * (barHeight + barSpacing); // Stack health bars with spacing
+                float barX = window.getSize().x - barWidth - 45;
+                float barY = offsetY + (i - 4) * (barHeight + barSpacing);
 
-                healthBars[i].setPosition(barX, barY);
-                emptyBars[i].setPosition(barX, barY);
+                healthBars[i % 4].setPosition(barX, barY);
+                emptyBars[i % 4].setPosition(barX, barY);
+
+                // Position the icon next to the health bar
+                unitIcons[i].setPosition(barX - 60, barY - 20); // Adjust as needed
             }
-            else
+            else  // Place human health bars on the left side
             {
-                // Position the remaining 4 health bars on the left
-                float barX = 50;  // 50 px padding from the left side
-                float barY = offsetY + (i - 4) * (barHeight + barSpacing); // Stack health bars with spacing
+                float barX = 45;
+                float barY = offsetY + i * (barHeight + barSpacing);
 
-                healthBars[i].setPosition(barX, barY);
-                emptyBars[i].setPosition(barX, barY);
+                healthBars[i % 4].setPosition(barX, barY);
+                emptyBars[i % 4].setPosition(barX, barY);
+
+                unitIcons[i].setPosition(barX + 210, barY - 20); // Adjust as needed
             }
 
-            // Change the size for health bars
-            healthBars[i].setSize(sf::Vector2f((healths[i])/100.0 * barWidth, barHeight)); // Set health
-
+            // Adjust the size of the health bar based on the unit's health percentage
+            healthBars[i % 4].setSize(sf::Vector2f((healthValue / 100.0) * barWidth, barHeight));/////////////////////////////////////////////////////////////
         }
 
         while (window.isOpen())
         {
-            window.clear(); // Clear the window before drawing
+            window.clear();
 
-            // Draw the background
             window.draw(backgroundSprite);
 
             sf::Event event;
@@ -266,81 +268,74 @@ int grafik(Takim insan_imparatorlugu,Takim ork_legi)
                 {
                     window.close();
                 }
-                // Detect mouse click
+
                 if (event.type == sf::Event::MouseButtonPressed)
                 {
                     if (event.mouseButton.button == sf::Mouse::Left)
                     {
-                        // Get mouse position
                         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-                        // Loop through all images to check for collision with the mouse
                         for (std::size_t i = 0; i < images.size(); ++i)
                         {
                             sf::Sprite& image = images[i];
 
-                            // Check if the mouse is inside the bounds of the sprite
                             if (image.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
                             {
                                 if (isEnlarged[i])
                                 {
-                                    // If already enlarged, reset to normal size
                                     image.setScale(image.getScale().x / 3.0f, image.getScale().y / 3.0f);
-                                    isEnlarged[i] = false; // Mark as not enlarged
+                                    isEnlarged[i] = false;
                                 }
                                 else
                                 {
-                                    // If not enlarged, increase the sprite size
                                     image.setScale(image.getScale().x * 3.0f, image.getScale().y * 3.0f);
-                                    isEnlarged[i] = true; // Mark as enlarged
+                                    isEnlarged[i] = true;
                                 }
                             }
                         }
                     }
                 }
 
-
                 if (event.type == sf::Event::KeyPressed)
                 {
                     if (event.key.code == sf::Keyboard::Escape)
                     {
-                      //  system("taskkill /im OpenConsole.exe /f");
                         window.close();
-                        return 0;
                     }
                 }
             }
 
-
-            // Draw hexagons
             for (const auto& hexagon : hexagons)
             {
-                window.draw(hexagon);
+                window.draw(hexagon); // Draw hexagons on the screen
             }
 
-            // Draw sprites at the hexagons
-            for (const sf::Sprite& image : images)
+            for (const auto& image : images)
             {
-                window.draw(image);
+                window.draw(image); // Draw images on the screen
             }
 
+            window.draw(monsterSprite); // Draw the monster
 
-            // Draw the monster sprite
-            window.draw(monsterSprite);
-
-
-            // Draw the empty gray bars first, then draw the filled health bars on top
-            for (int i = 0; i < NUM_HEALTH_BARS; ++i)
+            // Draw human health bars
+            for (int i = 0; i < 4; ++i)
             {
-                window.draw(emptyBars[i]);  // Draw the empty gray bar first
-                window.draw(healthBars[i]); // Draw the filled portion on top
+                window.draw(humanEmptyBars[i]);
+                window.draw(humanHealthBars[i]);
+                window.draw(unitIcons[i]);
             }
 
-            window.display(); // Display everything
+            // Draw orc health bars
+            for (int i = 0; i < 4; ++i)
+            {
+                window.draw(orcEmptyBars[i]);
+                window.draw(orcHealthBars[i]);
+                window.draw(unitIcons[i + 4]);
+            }
+
+            window.display();
         }
-
-
-        return 0;
     }
+    return 0;
 }
 
