@@ -257,6 +257,9 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         //birimlerin saglik durumlarinin guncellenmesi
         OrcLejyonu->birimler[i].saglik -= (netHasar/OrcLejyonu->birimler[i].sayi) > 0 ? (netHasar/OrcLejyonu->birimler[i].sayi) : 0;
+         if(OrcLejyonu->birimler[i].saglik==0){
+            OrcLejyonu->birimler[i].sayi=0;
+         }
     }
 
 }
@@ -380,7 +383,10 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         //birimlerin saglik durumlarinin guncellenmesi
         insanImparatorlugu->birimler[i].saglik -= (netHasar/insanImparatorlugu->birimler[i].sayi) > 0 ? (netHasar/insanImparatorlugu->birimler[i].sayi) : 0;
-         if(insanImparatorlugu->)
+         if(insanImparatorlugu->birimler[i].saglik==0){
+            insanImparatorlugu->birimler[i].sayi=0;
+         }
+
 
     }
 
