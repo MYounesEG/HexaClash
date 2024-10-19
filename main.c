@@ -3,20 +3,29 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 #include "classes.h"
 #include "functions.h"
 #include "gameInterface.h"
+#include "fightFunction.h"
 
 int main()
 {
-    int SenarioNumber;
+    int SenarioNumber=5;
+    char senaryoFile[10] = "5.json";
+    char sentence[]="Please Enter a Senario number : ";
+    for (int i=0;i<strlen(sentence);i++)
+    {
+        system("cls");
+        for(int j=0;j<i+1;j++)
+            printf("%c",sentence[j]);
+        Sleep(0.2);
+    }
 
-    char senaryoFile[10] = {0};
 
-    printf("Enter Senario number : ");
-    scanf("%d",&SenarioNumber);
+//    scanf("%d",&SenarioNumber);
 
-    downloadFile(SenarioNumber,senaryoFile);
+   // downloadFile(SenarioNumber,senaryoFile);
 
     Takim insan_imparatorlugu = {"insan_imparatorlugu"};
 
@@ -27,21 +36,17 @@ int main()
     readTakim(&ork_legi,senaryoFile);
 
 
-    printf("SHOWING THE GRAFIK !\n");
-    printf("SHOWING THE GRAFIK !\n");
-    printf("SHOWING THE GRAFIK !\n");
-    printf("SHOWING THE GRAFIK !\n");
     grafik(insan_imparatorlugu,ork_legi);
 
 
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
-/**///FIGHT(insan_imparatorlugu,ork_legi);/**//**//**//**//**//**/
+/**/FIGHT(&insan_imparatorlugu,&ork_legi);/**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-    //grafik(insan_imparatorlugu,ork_legi);
-    deleteFile(senaryoFile);
+    grafik(insan_imparatorlugu,ork_legi);
+  //  deleteFile(senaryoFile);
 
 
     return 0;

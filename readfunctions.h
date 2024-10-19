@@ -39,7 +39,7 @@ void readKahraman(Takim* team)
     {
         printf("\nKahraman Name = %s\n",team->kahramanlar[i].isim);
         printf("bonus turu = %s\n",team->kahramanlar[i].bonus_turu);
-        printf("deger = %d\n",team->kahramanlar[i].bonus_degeri);
+        printf("deger = %f\n",team->kahramanlar[i].bonus_degeri);
         printf("etkilenen = %s\n",team->kahramanlar[i].etkilenen);
 
     }
@@ -75,7 +75,7 @@ void readCanavar(Takim* team)
     {
         printf("\ncanvar Name = %s\n",team->canavarlar[i].isim);
         printf("etki turu = %s\n",team->canavarlar[i].etki_turu);
-        printf("deger = %d\n",team->canavarlar[i].etki_degeri);
+        printf("deger = %f\n",team->canavarlar[i].etki_degeri);
         printf("etkilenen = %s\n",team->canavarlar[i].etkilenen);
 
     }
@@ -106,11 +106,11 @@ void readBirim(Takim* team)
     for (int i=0;i< team->birimSayisi ;i++)//to-do (delete this after debug)
     {
         printf("\nbirim Name = %s",team->birimler[i].isim);
-        printf("    sayisi = %d\n",team->birimler[i].sayi);
-        printf("\nsalidiri= %d\n",team->birimler[i].saldiri);
-        printf("\nsavunma= %d\n",team->birimler[i].savunma);
-        printf("\nsaglik= %d\n",team->birimler[i].saglik);
-        printf("\nkritik_sans= %d\n",team->birimler[i].kritik_sans);
+        printf("    sayisi = %f\n",team->birimler[i].sayi);
+        printf("\nsalidiri= %f\n",team->birimler[i].saldiri);
+        printf("\nsavunma= %f\n",team->birimler[i].savunma);
+        printf("\nsaglik= %f\n",team->birimler[i].saglik);
+        printf("\nkritik_sans= %f\n",team->birimler[i].kritik_sans);
     }
 
     fclose(birimFile);
@@ -148,7 +148,7 @@ void readArastirma_seviyesi(Takim* team)
 
     printf("\narastirma sevyesi name : %s\n",team->arastirma_seviyesi.isim);
     printf("\narastirma sevyesi seviye : %d\n",team->arastirma_seviyesi.seviye);
-    printf("\narastirma sevyesi oran : %d\n",team->arastirma_seviyesi.oran);
+    printf("\narastirma sevyesi oran : %f\n",team->arastirma_seviyesi.oran);
     printf("\narastirma sevyesi etkilenen : %s\n",team->arastirma_seviyesi.etkilenen);
 
 

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-int grafik(Takim insan_imparatorlugu,Takim ork_legi);
+void grafik(Takim insan_imparatorlugu,Takim ork_legi);
 
 #ifdef __cplusplus
 }
