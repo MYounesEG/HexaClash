@@ -415,6 +415,7 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 
         OrkSaldiri_insanSavunma(insan_imparatorlugu,ork_legi,step);
         step++;
+        system("pause");
 
     }
     while(checkWiner(*insan_imparatorlugu,*ork_legi));
