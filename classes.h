@@ -8,7 +8,7 @@ typedef struct Unit{
     int saldiri;
     int savunma;
     int saglik;
-    int kritik_sans;
+    float kritik_sans;
 
     int sayi;
 }Unit;
