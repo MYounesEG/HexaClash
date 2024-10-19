@@ -13,7 +13,7 @@ int main()
 
     char senaryoFile[10] = {0};
 
-    printf("Enter Serario number : ");
+    printf("Enter Senario number : ");
     scanf("%d",&SenarioNumber);
 
     downloadFile(SenarioNumber,senaryoFile);
