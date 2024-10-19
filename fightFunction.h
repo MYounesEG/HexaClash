@@ -9,8 +9,8 @@
 bool isIn(char string1[], char string2[])
 {
     if(strstr(string1,string2)!= NULL)
-        return false;
-    else return true;
+       return true;
+    else  return false;
 }
 
 
@@ -240,8 +240,6 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
     printf("net hasar : %d\n", netHasar);
 
 
-
-
     for(int i=0; i<OrcLejyonu->birimSayisi; i++)
     {
 
@@ -249,19 +247,18 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
          printf("%s birimin %f hasar miktari ",OrcLejyonu->birimler[i].isim,damage);
         printf("\n");
         int death = damage/OrcLejyonu->birimler[i].saglik;
-        printf("%s birimden %d kisi oldu \n",OrcLejyonu->birimler[i].isim,death);
-         printf("\n");
         //Birimlerin toplam olu sayilerinin belirlenmesi ve mevcut birim sayisisindan eksiltilmesi
          death = death > 0 ? death : 0;
          OrcLejyonu->birimler[i].sayi -= death;
 
-        if(OrcLejyonu->birimler[i].sayi<0)
+         if(OrcLejyonu->birimler[i].sayi<0)
             OrcLejyonu->birimler[i].sayi=0;
 
-
+        printf("%s birimden %d kisi oldu \n",OrcLejyonu->birimler[i].isim,death);
+         printf("\n");
         //birimlerin saglik durumlarinin guncellenmesi
         OrcLejyonu->birimler[i].saglik -= (netHasar/OrcLejyonu->birimler[i].sayi) > 0 ? (netHasar/OrcLejyonu->birimler[i].sayi) : 0;
-         if(OrcLejyonu->birimler[i].saglik==0){
+        if(OrcLejyonu->birimler[i].saglik==0){
             OrcLejyonu->birimler[i].sayi=0;
          }
     }
@@ -379,22 +376,21 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
          printf("%s birimin %f hasar miktari ",insanImparatorlugu->birimler[i].isim,damage);
           printf("\n");
         int death = damage/insanImparatorlugu->birimler[i].saglik;
-        printf("%s birimden %d kisi oldu \n",insanImparatorlugu->birimler[i].isim,death);
-         printf("\n");
         //Birimlerin toplam olu sayilerinin belirlenmesi ve mevcut birim sayisisindan eksiltilmesi
          death = death > 0 ? death : 0;
-         OrcLejyonu->birimler[i].sayi -= death;
+         insanImparatorlugu->birimler[i].sayi -= death;
 
-       if(insanImparatorlugu->birimler[i].sayi<0)
+         if(insanImparatorlugu->birimler[i].sayi<0)
            insanImparatorlugu->birimler[i].sayi=0;
 
+        printf("%s birimden %d kisi oldu \n",insanImparatorlugu->birimler[i].isim,death);
+         printf("\n");
 
         //birimlerin saglik durumlarinin guncellenmesi
         insanImparatorlugu->birimler[i].saglik -= (netHasar/insanImparatorlugu->birimler[i].sayi) > 0 ? (netHasar/insanImparatorlugu->birimler[i].sayi) : 0;
          if(insanImparatorlugu->birimler[i].saglik==0){
             insanImparatorlugu->birimler[i].sayi=0;
          }
-
 
     }
 
@@ -404,23 +400,24 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 {
      UpdateCriticChance(insan_imparatorlugu,ork_legi);
     int step = 0;
-    do
-    {
+   do {
         insanSaldiri_OrkSavunma(insan_imparatorlugu,ork_legi,step);
-
         step++;
-
         if(step%5==0)
         updateAttactDefence(insan_imparatorlugu,ork_legi);
-
         OrkSaldiri_insanSavunma(insan_imparatorlugu,ork_legi,step);
         step++;
         system("pause");
 
-    }
-    while(checkWiner(*insan_imparatorlugu,*ork_legi));
+       }while(checkWiner(*insan_imparatorlugu,*ork_legi) == 0);
+
+
+        printf("\n\n");
+     for(int i=0;i<insan_imparatorlugu->birimSayisi;i++)
+        printf("%s : %d kisi kaldi\n ",insan_imparatorlugu->birimler[i].isim,insan_imparatorlugu->birimler[i].sayi);
+     for(int i=0;i<ork_legi->birimSayisi;i++)
+        printf("%s : %d kisi kaldi\n ",ork_legi.birimler[i].isim,ork_legi.birimler[i].sayi);
+
 
 
 }
-
-
