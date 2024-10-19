@@ -255,6 +255,10 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
          death = death > 0 ? death : 0;
          OrcLejyonu->birimler[i].sayi -= death;
 
+        if(OrcLejyonu->birimler[i].sayi<0)
+            OrcLejyonu->birimler[i].sayi=0;
+
+
         //birimlerin saglik durumlarinin guncellenmesi
         OrcLejyonu->birimler[i].saglik -= (netHasar/OrcLejyonu->birimler[i].sayi) > 0 ? (netHasar/OrcLejyonu->birimler[i].sayi) : 0;
          if(OrcLejyonu->birimler[i].saglik==0){
@@ -380,6 +384,10 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         //Birimlerin toplam olu sayilerinin belirlenmesi ve mevcut birim sayisisindan eksiltilmesi
          death = death > 0 ? death : 0;
          OrcLejyonu->birimler[i].sayi -= death;
+
+       if(insanImparatorlugu->birimler[i].sayi<0)
+           insanImparatorlugu->birimler[i].sayi=0;
+
 
         //birimlerin saglik durumlarinin guncellenmesi
         insanImparatorlugu->birimler[i].saglik -= (netHasar/insanImparatorlugu->birimler[i].sayi) > 0 ? (netHasar/insanImparatorlugu->birimler[i].sayi) : 0;
