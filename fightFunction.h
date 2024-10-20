@@ -23,9 +23,9 @@ int checkWiner(Takim insanImparatorlugu, Takim OrkLegi)
     for(int i=0; i<OrkLegi.birimSayisi ; i++)
         totalUnitOrk += OrkLegi.birimler[i].sayi;
 
-    if(totalUnitInsan==0)
+    if(totalUnitInsan<=0)
         return 2;
-    else if(totalUnitOrk==0)
+    else if(totalUnitOrk<=0)
         return 1;
     else
         return 0;
