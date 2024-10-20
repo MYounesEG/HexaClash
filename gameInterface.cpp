@@ -9,25 +9,24 @@
 using namespace std;
 using namespace sf;
 
-const int HEX_SIZE = 30.0;  // Size of the hexagon
-const float SPACING = 20.0f; // Spacing between hexagons
-const int NUM_HEALTH_BARS = 8; // Total number of health bars (4 on each side)
+float HEX_SIZE = 30.0;  // Default size of the hexagon
+float SPACING = 20.0f;  // Default spacing between hexagons
 
 // Function to convert hexagonal grid coordinates (q, r) to pixel coordinates
-Vector2f hexToPixel(int q, int r, float offsetX, float offsetY)
+Vector2f hexToPixel(int q, int r, float offsetX, float offsetY, float hexSize, float spacing)
 {
-    float x = HEX_SIZE * 3.0f / 2.0f * q;  // Horizontal distance between hexes
-    float y = HEX_SIZE * sqrt(3) * r; // Vertical distance between hexes
+    float x = hexSize * 3.0f / 2.0f * q;  // Horizontal distance between hexes
+    float y = hexSize * sqrt(3) * r; // Vertical distance between hexes
 
     // Stagger even rows by shifting x position
     if (q % 2 != 0)
     {
-        y += HEX_SIZE * sqrt(3) / 2.0f;
+        y += hexSize * sqrt(3) / 2.0f;
     }
 
     // Apply spacing between hexagons
-    x += SPACING * q;
-    y += SPACING * r;
+    x += spacing * q;
+    y += spacing * r;
 
     // Centering based on offsets
     x += offsetX;
@@ -37,12 +36,12 @@ Vector2f hexToPixel(int q, int r, float offsetX, float offsetY)
 }
 
 // Function to create a hexagon shape
-CircleShape createHexagon(float x, float y)
+CircleShape createHexagon(float x, float y, float hexSize)
 {
-    CircleShape hexagon(HEX_SIZE, 6); // Create a hexagon shape
+    CircleShape hexagon(hexSize, 6); // Create a hexagon shape
     hexagon.setPosition(x, y); // Set its position
     hexagon.setFillColor(Color::Red); // Set its color to red
-    hexagon.setOrigin(HEX_SIZE, HEX_SIZE); // Set origin to the center for proper rotation
+    hexagon.setOrigin(hexSize, hexSize); // Set origin to the center for proper rotation
 
     // Set the outline color and thickness
     hexagon.setOutlineColor(Color::Black); // Set the outline color to black
@@ -52,7 +51,7 @@ CircleShape createHexagon(float x, float y)
 }
 
 // Function to place an image at a specific grid position
-Sprite setImage(int row, int col, const string& imageName, float offsetX, float offsetY, float scaleFactor)
+Sprite setImage(int row, int col, const string& imageName, float offsetX, float offsetY, float scaleFactor, float hexSize, float spacing)
 {
     Texture* texture = new Texture();
     if (!texture->loadFromFile(imageName))
@@ -68,7 +67,7 @@ Sprite setImage(int row, int col, const string& imageName, float offsetX, float 
     sprite.setScale(scaleFactor, scaleFactor);
 
     // Get the pixel position for the specified grid row and column
-    Vector2f pos = hexToPixel(row, col, offsetX, offsetY);
+    Vector2f pos = hexToPixel(row, col, offsetX, offsetY, hexSize, spacing);
 
     // Center the sprite inside the hexagon
     sprite.setPosition(pos.x - (128 * scaleFactor), pos.y - (128 * scaleFactor));
@@ -76,8 +75,7 @@ Sprite setImage(int row, int col, const string& imageName, float offsetX, float 
     return sprite;
 }
 
-
-void putImge(int mode, Unit birim, vector<Sprite>& images, vector<bool>& isEnlarged, float offsetX, float offsetY, float scaleFactor, int Positions[10][10], int extraSpacing)
+void putImge(int mode, Unit birim, vector<Sprite>& images, vector<bool>& isEnlarged, float offsetX, float offsetY, float scaleFactor, int Positions[10][10], int extraSpacing, float hexSize, float spacing)
 {
     char imgeName[30] = {0};
     sprintf(imgeName, "images/%s.png", birim.isim);
@@ -94,7 +92,7 @@ void putImge(int mode, Unit birim, vector<Sprite>& images, vector<bool>& isEnlar
 
         Positions[randomX][randomY] = 1;
 
-        images.push_back(setImage(randomX, randomY, imgeName, offsetX + (mode == 2 ? extraSpacing : 0), offsetY, scaleFactor));
+        images.push_back(setImage(randomX, randomY, imgeName, offsetX + (mode == 2 ? extraSpacing + 10 : 10), offsetY, scaleFactor, hexSize, spacing));
         isEnlarged.push_back(false); // Initialize the image as not enlarged
     }
 }
@@ -107,6 +105,10 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     // Create a fullscreen window
     RenderWindow window(VideoMode::getFullscreenModes()[0], "Hexagonal Rectangular Grid Game", Style::Fullscreen);
 
+    // Adjust HEX_SIZE and SPACING based on the screen size
+    HEX_SIZE = window.getSize().y / 25.0f; // Dynamic size based on the window height
+    SPACING = HEX_SIZE * 0.6f;             // Dynamic spacing proportional to hex size
+
     vector<CircleShape> hexagons;
     float offsetX = window.getSize().x / 3.8;
     float offsetY = window.getSize().y / 15;
@@ -117,9 +119,9 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     {
         for (int r = 0; r < 10; ++r)
         {
-            extraSpacing = (q >= 5) ? 50.0f : 0.0f;
-            Vector2f pos = hexToPixel(q, r, offsetX + extraSpacing, offsetY);
-            hexagons.push_back(createHexagon(pos.x, pos.y));
+            extraSpacing = (q >= 5) ? 40.0f : 0.0f;
+            Vector2f pos = hexToPixel(q, r, offsetX + extraSpacing + 10, offsetY, HEX_SIZE, SPACING);
+            hexagons.push_back(createHexagon(pos.x, pos.y, HEX_SIZE));
         }
     }
 
@@ -131,10 +133,10 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     vector<bool> isEnlarged;
 
     for (int i = 0; i < insan_imparatorlugu.birimSayisi; i++)
-        putImge(1, insan_imparatorlugu.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
+        putImge(1, insan_imparatorlugu.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing, HEX_SIZE, SPACING);
 
     for (int i = 0; i < ork_legi.birimSayisi; i++)
-        putImge(2, ork_legi.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
+        putImge(2, ork_legi.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing, HEX_SIZE, SPACING);
 
     // Load background image
     Texture backgroundTexture;
@@ -151,6 +153,7 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     );
 
 
+
     vector<Sprite> mainCharacters;
     Texture heroTextureOrkLegi;
     Texture monsterTextureOrkLegi;
@@ -164,7 +167,8 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     string orkMonsterImagePath = "images/" + (string)ork_legi.canavarlar[0].isim + ".png";
 
     // Load hero for ork_legi
-    if (!heroTextureOrkLegi.loadFromFile(orkHeroImagePath)) {
+    if (!heroTextureOrkLegi.loadFromFile(orkHeroImagePath))
+    {
         cerr << "Error loading " + orkHeroImagePath + " image" << endl;
         return;
     }
@@ -176,7 +180,8 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     mainCharacters.push_back(orkHeroSprite);
 
     // Load monster for ork_legi
-    if (!monsterTextureOrkLegi.loadFromFile(orkMonsterImagePath)) {
+    if (!monsterTextureOrkLegi.loadFromFile(orkMonsterImagePath))
+    {
         cerr << "Error loading " + orkMonsterImagePath + " image" << endl;
         return;
     }
@@ -192,7 +197,8 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     string insanMonsterImagePath = "images/" + (string)insan_imparatorlugu.canavarlar[0].isim + ".png";
 
     // Load hero for insan_imparatorlugu
-    if (!heroTextureInsanImparatorlugu.loadFromFile(insanHeroImagePath)) {
+    if (!heroTextureInsanImparatorlugu.loadFromFile(insanHeroImagePath))
+    {
         cerr << "Error loading " + insanHeroImagePath + " image" << endl;
         return;
     }
@@ -204,7 +210,8 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     mainCharacters.push_back(insanHeroSprite);
 
     // Load monster for insan_imparatorlugu
-    if (!monsterTextureInsanImparatorlugu.loadFromFile(insanMonsterImagePath)) {
+    if (!monsterTextureInsanImparatorlugu.loadFromFile(insanMonsterImagePath))
+    {
         cerr << "Error loading " + insanMonsterImagePath + " image" << endl;
         return;
     }
@@ -214,6 +221,8 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     insanMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
     insanMonsterSprite.setPosition(offsetX - 450.0f, offsetY + 170); // Adjust position
     mainCharacters.push_back(insanMonsterSprite);
+
+
 
 
 
@@ -381,13 +390,11 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
             window.draw(image); // Draw images
         }
 
-        for(int i=mainCharacters.size()-1;i>=0;i--)
+        for(int i=mainCharacters.size()-1; i>=0; i--)
         {
             window.draw(mainCharacters[i]); // Draw every kahraman/canavar image
         }
 
         window.display();
     }
-
-    return;
 }
