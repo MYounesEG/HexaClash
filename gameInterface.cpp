@@ -7,21 +7,22 @@
 #include "gameInterface.h"
 
 using namespace std;
+using namespace sf;
 
 const int HEX_SIZE = 30.0;  // Size of the hexagon
 const float SPACING = 20.0f; // Spacing between hexagons
 const int NUM_HEALTH_BARS = 8; // Total number of health bars (4 on each side)
 
 // Function to convert hexagonal grid coordinates (q, r) to pixel coordinates
-sf::Vector2f hexToPixel(int q, int r, float offsetX, float offsetY)
+Vector2f hexToPixel(int q, int r, float offsetX, float offsetY)
 {
     float x = HEX_SIZE * 3.0f / 2.0f * q;  // Horizontal distance between hexes
-    float y = HEX_SIZE * std::sqrt(3) * r; // Vertical distance between hexes
+    float y = HEX_SIZE * sqrt(3) * r; // Vertical distance between hexes
 
     // Stagger even rows by shifting x position
     if (q % 2 != 0)
     {
-        y += HEX_SIZE * std::sqrt(3) / 2.0f;
+        y += HEX_SIZE * sqrt(3) / 2.0f;
     }
 
     // Apply spacing between hexagons
@@ -32,42 +33,42 @@ sf::Vector2f hexToPixel(int q, int r, float offsetX, float offsetY)
     x += offsetX;
     y += offsetY;
 
-    return sf::Vector2f(x, y);
+    return Vector2f(x, y);
 }
 
 // Function to create a hexagon shape
-sf::CircleShape createHexagon(float x, float y)
+CircleShape createHexagon(float x, float y)
 {
-    sf::CircleShape hexagon(HEX_SIZE, 6); // Create a hexagon shape
+    CircleShape hexagon(HEX_SIZE, 6); // Create a hexagon shape
     hexagon.setPosition(x, y); // Set its position
-    hexagon.setFillColor(sf::Color::Red); // Set its color to red
+    hexagon.setFillColor(Color::Red); // Set its color to red
     hexagon.setOrigin(HEX_SIZE, HEX_SIZE); // Set origin to the center for proper rotation
 
     // Set the outline color and thickness
-    hexagon.setOutlineColor(sf::Color::Black); // Set the outline color to black
+    hexagon.setOutlineColor(Color::Black); // Set the outline color to black
     hexagon.setOutlineThickness(2.0f); // Set the outline thickness
 
     return hexagon;
 }
 
 // Function to place an image at a specific grid position
-sf::Sprite setImage(int row, int col, const std::string& imageName, float offsetX, float offsetY, float scaleFactor)
+Sprite setImage(int row, int col, const string& imageName, float offsetX, float offsetY, float scaleFactor)
 {
-    sf::Texture* texture = new sf::Texture();
+    Texture* texture = new Texture();
     if (!texture->loadFromFile(imageName))
     {
-        throw std::runtime_error("Failed to load image: " + imageName);
+        throw runtime_error("Failed to load image: " + imageName);
     }
 
     // Create a sprite for the texture
-    sf::Sprite sprite;
+    Sprite sprite;
     sprite.setTexture(*texture);
 
     // Scale the sprite to fit within the hexagons
     sprite.setScale(scaleFactor, scaleFactor);
 
     // Get the pixel position for the specified grid row and column
-    sf::Vector2f pos = hexToPixel(row, col, offsetX, offsetY);
+    Vector2f pos = hexToPixel(row, col, offsetX, offsetY);
 
     // Center the sprite inside the hexagon
     sprite.setPosition(pos.x - (128 * scaleFactor), pos.y - (128 * scaleFactor));
@@ -76,7 +77,7 @@ sf::Sprite setImage(int row, int col, const std::string& imageName, float offset
 }
 
 
-void putImge(int mode, Unit birim, std::vector<sf::Sprite>& images, std::vector<bool>& isEnlarged, float offsetX, float offsetY, float scaleFactor, int Positions[10][10], int extraSpacing)
+void putImge(int mode, Unit birim, vector<Sprite>& images, vector<bool>& isEnlarged, float offsetX, float offsetY, float scaleFactor, int Positions[10][10], int extraSpacing)
 {
     char imgeName[30] = {0};
     sprintf(imgeName, "images/%s.png", birim.isim);
@@ -104,9 +105,9 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     srand(time(0));
 
     // Create a fullscreen window
-    sf::RenderWindow window(sf::VideoMode::getFullscreenModes()[0], "Hexagonal Rectangular Grid Game", sf::Style::Fullscreen);
+    RenderWindow window(VideoMode::getFullscreenModes()[0], "Hexagonal Rectangular Grid Game", Style::Fullscreen);
 
-    std::vector<sf::CircleShape> hexagons;
+    vector<CircleShape> hexagons;
     float offsetX = window.getSize().x / 3.8;
     float offsetY = window.getSize().y / 15;
     float extraSpacing;
@@ -117,17 +118,17 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
         for (int r = 0; r < 10; ++r)
         {
             extraSpacing = (q >= 5) ? 50.0f : 0.0f;
-            sf::Vector2f pos = hexToPixel(q, r, offsetX + extraSpacing, offsetY);
+            Vector2f pos = hexToPixel(q, r, offsetX + extraSpacing, offsetY);
             hexagons.push_back(createHexagon(pos.x, pos.y));
         }
     }
 
-    float hexInnerRadius = HEX_SIZE * std::sqrt(3) / 2.0f;
+    float hexInnerRadius = HEX_SIZE * sqrt(3) / 2.0f;
     float scaleFactor = hexInnerRadius / 128.0f;
 
     int Positions[10][10] = {0};
-    std::vector<sf::Sprite> images;
-    std::vector<bool> isEnlarged;
+    vector<Sprite> images;
+    vector<bool> isEnlarged;
 
     for (int i = 0; i < insan_imparatorlugu.birimSayisi; i++)
         putImge(1, insan_imparatorlugu.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
@@ -136,13 +137,13 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
         putImge(2, ork_legi.birimler[i], images, isEnlarged, offsetX, offsetY, scaleFactor, Positions, extraSpacing);
 
     // Load background image
-    sf::Texture backgroundTexture;
+    Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("images/background_image.png"))
     {
-        std::cerr << "Error loading background image" << std::endl;
+        cerr << "Error loading background image" << endl;
         return;
     }
-    sf::Sprite backgroundSprite;
+    Sprite backgroundSprite;
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(
         window.getSize().x / backgroundSprite.getLocalBounds().width,
@@ -150,25 +151,25 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
     );
 
 
-    std::vector<sf::Sprite> mainCharacters;
-    sf::Texture heroTextureOrkLegi;
-    sf::Texture monsterTextureOrkLegi;
-    sf::Texture heroTextureInsanImparatorlugu;
-    sf::Texture monsterTextureInsanImparatorlugu;
+    vector<Sprite> mainCharacters;
+    Texture heroTextureOrkLegi;
+    Texture monsterTextureOrkLegi;
+    Texture heroTextureInsanImparatorlugu;
+    Texture monsterTextureInsanImparatorlugu;
 
     float characterPosX, characterPosY;
 
     // Load images for ork_legi
-    std::string orkHeroImagePath = "images/" + (std::string)ork_legi.kahramanlar[0].isim + ".png";
-    std::string orkMonsterImagePath = "images/" + (std::string)ork_legi.canavarlar[0].isim + ".png";
+    string orkHeroImagePath = "images/" + (string)ork_legi.kahramanlar[0].isim + ".png";
+    string orkMonsterImagePath = "images/" + (string)ork_legi.canavarlar[0].isim + ".png";
 
     // Load hero for ork_legi
     if (!heroTextureOrkLegi.loadFromFile(orkHeroImagePath)) {
-        std::cerr << "Error loading " + orkHeroImagePath + " image" << std::endl;
+        cerr << "Error loading " + orkHeroImagePath + " image" << endl;
         return;
     }
 
-    sf::Sprite orkHeroSprite;
+    Sprite orkHeroSprite;
     orkHeroSprite.setTexture(heroTextureOrkLegi);
     orkHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
     orkHeroSprite.setPosition(offsetX + 600, offsetY + 350);
@@ -176,27 +177,27 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
 
     // Load monster for ork_legi
     if (!monsterTextureOrkLegi.loadFromFile(orkMonsterImagePath)) {
-        std::cerr << "Error loading " + orkMonsterImagePath + " image" << std::endl;
+        cerr << "Error loading " + orkMonsterImagePath + " image" << endl;
         return;
     }
 
-    sf::Sprite orkMonsterSprite;
+    Sprite orkMonsterSprite;
     orkMonsterSprite.setTexture(monsterTextureOrkLegi);
     orkMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
     orkMonsterSprite.setPosition(offsetX + 700.0f, offsetY + 170); // Adjust position
     mainCharacters.push_back(orkMonsterSprite);
 
     // Load images for insan_imparatorlugu
-    std::string insanHeroImagePath = "images/" + (std::string)insan_imparatorlugu.kahramanlar[0].isim + ".png";
-    std::string insanMonsterImagePath = "images/" + (std::string)insan_imparatorlugu.canavarlar[0].isim + ".png";
+    string insanHeroImagePath = "images/" + (string)insan_imparatorlugu.kahramanlar[0].isim + ".png";
+    string insanMonsterImagePath = "images/" + (string)insan_imparatorlugu.canavarlar[0].isim + ".png";
 
     // Load hero for insan_imparatorlugu
     if (!heroTextureInsanImparatorlugu.loadFromFile(insanHeroImagePath)) {
-        std::cerr << "Error loading " + insanHeroImagePath + " image" << std::endl;
+        cerr << "Error loading " + insanHeroImagePath + " image" << endl;
         return;
     }
 
-    sf::Sprite insanHeroSprite;
+    Sprite insanHeroSprite;
     insanHeroSprite.setTexture(heroTextureInsanImparatorlugu);
     insanHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
     insanHeroSprite.setPosition(offsetX - 400, offsetY + 350.0f); // Adjust position
@@ -204,11 +205,11 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
 
     // Load monster for insan_imparatorlugu
     if (!monsterTextureInsanImparatorlugu.loadFromFile(insanMonsterImagePath)) {
-        std::cerr << "Error loading " + insanMonsterImagePath + " image" << std::endl;
+        cerr << "Error loading " + insanMonsterImagePath + " image" << endl;
         return;
     }
 
-    sf::Sprite insanMonsterSprite;
+    Sprite insanMonsterSprite;
     insanMonsterSprite.setTexture(monsterTextureInsanImparatorlugu);
     insanMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
     insanMonsterSprite.setPosition(offsetX - 450.0f, offsetY + 170); // Adjust position
@@ -217,39 +218,35 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
 
 
 
-
-
-
-
     // Split health bars into two vectors (human and orc)
-    std::vector<sf::RectangleShape> humanHealthBars(4);
-    std::vector<sf::RectangleShape> humanEmptyBars(4);
-    std::vector<sf::RectangleShape> orcHealthBars(4);
-    std::vector<sf::RectangleShape> orcEmptyBars(4);
+    vector<RectangleShape> humanHealthBars(4);
+    vector<RectangleShape> humanEmptyBars(4);
+    vector<RectangleShape> orcHealthBars(4);
+    vector<RectangleShape> orcEmptyBars(4);
 
     float barWidth = 200.0f;
     float barHeight = 20.0f;
     float barSpacing = 50.0f;
 
     // Load a font for health percentage text
-    sf::Font font;
+    Font font;
     if (!font.loadFromFile("fonts/arial.ttf"))
     {
-        std::cerr << "Error loading font" << std::endl;
+        cerr << "Error loading font" << endl;
         return;
     }
 
     // Create health percentage texts
-    std::vector<sf::Text> healthTexts(8);  // 4 for human, 4 for orc
-    std::vector<sf::Sprite> unitIcons(8);
-    std::vector<sf::Texture> iconTextures(8);
+    vector<Text> healthTexts(8);  // 4 for human, 4 for orc
+    vector<Sprite> unitIcons(8);
+    vector<Texture> iconTextures(8);
 
     for (int i = 0; i < 8; ++i)
     {
-        std::string iconPath = "images/" + (std::string)((i < 4) ? insan_imparatorlugu.birimler[i].isim : ork_legi.birimler[i % 4].isim) + ".png";
+        string iconPath = "images/" + (string)((i < 4) ? insan_imparatorlugu.birimler[i].isim : ork_legi.birimler[i % 4].isim) + ".png";
         if (!iconTextures[i].loadFromFile(iconPath))
         {
-            std::cerr << "Error loading icon: " << iconPath << std::endl;
+            cerr << "Error loading icon: " << iconPath << endl;
             return;
         }
 
@@ -257,24 +254,29 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
         unitIcons[i].setTexture(iconTextures[i]);
         unitIcons[i].setScale(0.2f, 0.2f);
 
-        float healthValue = ((i < 4) ? insan_imparatorlugu.birimler[i].sayi : ork_legi.birimler[i - 4].sayi) / 230.0 * 100;
+        float healthValue ;
+        if(i<4)
+            healthValue = insan_imparatorlugu.birimler[i].sayi * insan_imparatorlugu.birimler[i].saglik / (insan_imparatorlugu.birimler[i].orjinal_sayi * insan_imparatorlugu.birimler[i].orjinal_saglik) * 100;
+        else
+            healthValue = ork_legi.birimler[i - 4].sayi * ork_legi.birimler[i - 4].saglik / (ork_legi.birimler[i - 4].orjinal_sayi * ork_legi.birimler[i - 4].orjinal_saglik) * 100;
+
         healthTexts[i].setFont(font);
-        healthTexts[i].setString(std::to_string(static_cast<int>(healthValue)) + "%"); // Display health as percentage
+        healthTexts[i].setString(to_string(static_cast<int>(healthValue)) + "%"); // Display health as percentage
         healthTexts[i].setCharacterSize(18);
-        healthTexts[i].setFillColor(sf::Color::White);
+        healthTexts[i].setFillColor(Color::White);
 
         // Determine bar positions and text alignment
-        std::vector<sf::RectangleShape>& healthBars = (i < 4) ? humanHealthBars : orcHealthBars;
-        std::vector<sf::RectangleShape>& emptyBars = (i < 4) ? humanEmptyBars : orcEmptyBars;
+        vector<RectangleShape>& healthBars = (i < 4) ? humanHealthBars : orcHealthBars;
+        vector<RectangleShape>& emptyBars = (i < 4) ? humanEmptyBars : orcEmptyBars;
 
-        healthBars[i % 4].setSize(sf::Vector2f((healthValue / 100.0) * barWidth, barHeight));
-        healthBars[i % 4].setFillColor((healthValue > 50) ? sf::Color(0, 255, 47) : (healthValue > 20) ? sf::Color(234, 255, 0) : sf::Color(255, 0, 4));
-        healthBars[i % 4].setOutlineColor(sf::Color::Black);
+        healthBars[i % 4].setSize(Vector2f((healthValue / 100.0) * barWidth, barHeight));
+        healthBars[i % 4].setFillColor((healthValue > 50) ? Color(0, 255, 47) : (healthValue > 20) ? Color(234, 255, 0) : Color(255, 0, 4));
+        healthBars[i % 4].setOutlineColor(Color::Black);
         healthBars[i % 4].setOutlineThickness(2.0f);
 
-        emptyBars[i % 4].setSize(sf::Vector2f(barWidth, barHeight));
-        emptyBars[i % 4].setFillColor(sf::Color(128, 128, 128));
-        emptyBars[i % 4].setOutlineColor(sf::Color::Black);
+        emptyBars[i % 4].setSize(Vector2f(barWidth, barHeight));
+        emptyBars[i % 4].setFillColor(Color(128, 128, 128));
+        emptyBars[i % 4].setOutlineColor(Color::Black);
         emptyBars[i % 4].setOutlineThickness(2.0f);
 
         if (i >= 4)  // Orc side
@@ -303,23 +305,23 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
 
         window.draw(backgroundSprite);
 
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == Event::Closed)
             {
                 window.close();
             }
 
-            if (event.type == sf::Event::MouseButtonPressed)
+            if (event.type == Event::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
+                if (event.mouseButton.button == Mouse::Left)
                 {
-                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    Vector2i mousePos = Mouse::getPosition(window);
                     for (int i = 0; i < images.size(); ++i)
                     {
-                        sf::Sprite& image = images[i];
-                        if (image.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+                        Sprite& image = images[i];
+                        if (image.getGlobalBounds().contains(static_cast<Vector2f>(mousePos)))
                         {
                             if (isEnlarged[i])
                             {
@@ -336,13 +338,13 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
                 }
             }
 
-            if (event.type == sf::Event::KeyPressed)
+            if (event.type == Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::Escape)
+                if (event.key.code == Keyboard::Escape)
                 {
                     window.close();
                 }
-                else if (event.key.code == sf::Keyboard::Space)
+                else if (event.key.code == Keyboard::Space)
                 {
                     window.close();
                     grafik(insan_imparatorlugu,ork_legi);
@@ -389,5 +391,3 @@ void grafik(Takim insan_imparatorlugu, Takim ork_legi)
 
     return;
 }
-
-

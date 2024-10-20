@@ -10,7 +10,14 @@ typedef struct Unit{
     float saglik;
     float kritik_sans;
 
+
     float sayi;
+
+    float orjinal_sayi;
+    float orjinal_saglik;
+
+
+
 }Unit;
 
 

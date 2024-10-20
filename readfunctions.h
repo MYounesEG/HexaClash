@@ -101,6 +101,7 @@ void readBirim(Takim* team)
         team->birimler[i].saglik=getValue(line);
         nextLine(birimFile,line);
         team->birimler[i].kritik_sans=getValue(line);
+
     }
 
     for (int i=0;i< team->birimSayisi ;i++)//to-do (delete this after debug)
@@ -111,6 +112,9 @@ void readBirim(Takim* team)
         printf("\nsavunma= %f\n",team->birimler[i].savunma);
         printf("\nsaglik= %f\n",team->birimler[i].saglik);
         printf("\nkritik_sans= %f\n",team->birimler[i].kritik_sans);
+
+        team->birimler[i].orjinal_sayi = team->birimler[i].sayi;
+        team->birimler[i].orjinal_saglik = team->birimler[i].saglik;
     }
 
     fclose(birimFile);

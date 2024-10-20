@@ -270,6 +270,7 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         OrcLejyonu->birimler[i].saglik -= (netHasar/OrcLejyonu->birimler[i].sayi) > 0 ? (netHasar/OrcLejyonu->birimler[i].sayi) : 0;
         if(OrcLejyonu->birimler[i].saglik<=0)
         {
+            OrcLejyonu->birimler[i].saglik=0;
             OrcLejyonu->birimler[i].sayi=0;
         }
     }
@@ -397,8 +398,10 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         death = death > 0 ? death : 0;
         insanImparatorlugu->birimler[i].sayi -= death;
 
-        if(insanImparatorlugu->birimler[i].sayi<=0)
-            insanImparatorlugu->birimler[i].sayi=0;
+        if(insanImparatorlugu->birimler[i].sayi<=0){
+            insanImparatorlugu->birimler[i].sayi=0;            insanImparatorlugu->birimler[i].saglik=0;
+
+        }
 
         printf("%s birimden %d kisi oldu \n",insanImparatorlugu->birimler[i].isim,death);
         printf("\n");
@@ -407,6 +410,7 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         insanImparatorlugu->birimler[i].saglik -= (netHasar/insanImparatorlugu->birimler[i].sayi) > 0 ? (netHasar/insanImparatorlugu->birimler[i].sayi) : 0;
         if(insanImparatorlugu->birimler[i].saglik<=0)
         {
+            insanImparatorlugu->birimler[i].saglik=0;
             insanImparatorlugu->birimler[i].sayi=0;
         }
 
@@ -451,8 +455,6 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 
     }
     while(checkWiner(*insan_imparatorlugu,*ork_legi) == 0);
-
-
 
 
 }

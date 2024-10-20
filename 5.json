@@ -1,7 +1,7 @@
 {
     "ork_legi": {
         "kahramanlar": ["Ugar_Zalim"],
-        "canavarlar": ["Camur_Devleri"],
+        "canavarlar": ["Ates_Iblisi"],
         "arastirma_seviyesi": {
             "saldiri_gelistirmesi": 2
         },
@@ -23,6 +23,6 @@
             "kusatma_makineleri": 8
         },
         "kahramanlar": ["Yavuz_Sultan_Selim"],
-        "canavarlar": ["Agri_Dagi_Devleri"]
+        "canavarlar": ["Ejderha"]
     }
 }
