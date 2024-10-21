@@ -132,67 +132,68 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
     Sprite bgSprite;
     bgSprite.setTexture(bgTexture);
     bgSprite.setScale(window.getSize().x / bgSprite.getLocalBounds().width, window.getSize().y / bgSprite.getLocalBounds().height);
-
-    // Load heroes and monsters
     vector<Sprite> mainCharacters;
-    vector<string> orkImagePaths = {"images/" + string(ork_legi.kahramanlar[0].isim) + ".png", "images/" + string(ork_legi.canavarlar[0].isim) + ".png"};
-    vector<string> humanImagePaths = {"images/" + string(insan_imparatorlugu.kahramanlar[0].isim) + ".png", "images/" + string(insan_imparatorlugu.canavarlar[0].isim) + ".png"};
+        // Load heroes and monsters
+        vector<string> orkImagePaths = {"images/" + string(ork_legi.kahramanlar[0].isim) + ".png", "images/" + string(ork_legi.canavarlar[0].isim) + ".png"};
+        vector<string> humanImagePaths = {"images/" + string(insan_imparatorlugu.kahramanlar[0].isim) + ".png", "images/" + string(insan_imparatorlugu.canavarlar[0].isim) + ".png"};
 
-    Texture orkHeroTexture, orkMonsterTexture, humanHeroTexture, humanMonsterTexture;
-    Sprite orkHeroSprite, orkMonsterSprite, humanHeroSprite, humanMonsterSprite;
+        Texture orkHeroTexture, orkMonsterTexture, humanHeroTexture, humanMonsterTexture;
+        Sprite orkHeroSprite, orkMonsterSprite, humanHeroSprite, humanMonsterSprite;
 
-
-    // Ork monster
-    if (!orkMonsterTexture.loadFromFile(orkImagePaths[1]))
+    if(insan_imparatorlugu.kahramanSayisi||insan_imparatorlugu.canavarSayisi||ork_legi.kahramanSayisi||ork_legi.canavarSayisi)
     {
-        cerr << "Error loading " + orkImagePaths[1] + " image" << endl;
-        return;
+
+        // Ork monster
+        if (!orkMonsterTexture.loadFromFile(orkImagePaths[1]))
+        {
+            cerr << "Error loading " + orkImagePaths[1] + " image" << endl;
+            return;
+        }
+        orkMonsterSprite.setTexture(orkMonsterTexture);
+        orkMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
+        orkMonsterSprite.setPosition(offsetX + 700, offsetY + 170);
+        mainCharacters.push_back(orkMonsterSprite);
+
+
+        // Ork hero
+        if (!orkHeroTexture.loadFromFile(orkImagePaths[0]))
+        {
+            cerr << "Error loading " + orkImagePaths[0] + " image" << endl;
+            return;
+        }
+        orkHeroSprite.setTexture(orkHeroTexture);
+        orkHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
+        orkHeroSprite.setPosition(offsetX + 600, offsetY + 350);
+        mainCharacters.push_back(orkHeroSprite);
+
+
+        // Human monster
+        if (!humanMonsterTexture.loadFromFile(humanImagePaths[1]))
+        {
+            cerr << "Error loading " + humanImagePaths[1] + " image" << endl;
+            return;
+        }
+        humanMonsterSprite.setTexture(humanMonsterTexture);
+        humanMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
+        humanMonsterSprite.setPosition(offsetX - 450, offsetY + 170);
+        mainCharacters.push_back(humanMonsterSprite);
+
+
+        // Human hero
+        if (!humanHeroTexture.loadFromFile(humanImagePaths[0]))
+        {
+            cerr << "Error loading " + humanImagePaths[0] + " image" << endl;
+            return;
+        }
+        humanHeroSprite.setTexture(humanHeroTexture);
+        humanHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
+        humanHeroSprite.setPosition(offsetX - 400, offsetY + 350);
+        mainCharacters.push_back(humanHeroSprite);
+
     }
-    orkMonsterSprite.setTexture(orkMonsterTexture);
-    orkMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
-    orkMonsterSprite.setPosition(offsetX + 700, offsetY + 170);
-    mainCharacters.push_back(orkMonsterSprite);
 
 
-    // Ork hero
-    if (!orkHeroTexture.loadFromFile(orkImagePaths[0]))
-    {
-        cerr << "Error loading " + orkImagePaths[0] + " image" << endl;
-        return;
-    }
-    orkHeroSprite.setTexture(orkHeroTexture);
-    orkHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
-    orkHeroSprite.setPosition(offsetX + 600, offsetY + 350);
-    mainCharacters.push_back(orkHeroSprite);
-
-
-    // Human monster
-    if (!humanMonsterTexture.loadFromFile(humanImagePaths[1]))
-    {
-        cerr << "Error loading " + humanImagePaths[1] + " image" << endl;
-        return;
-    }
-    humanMonsterSprite.setTexture(humanMonsterTexture);
-    humanMonsterSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
-    humanMonsterSprite.setPosition(offsetX - 450, offsetY + 170);
-    mainCharacters.push_back(humanMonsterSprite);
-
-
-    // Human hero
-    if (!humanHeroTexture.loadFromFile(humanImagePaths[0]))
-    {
-        cerr << "Error loading " + humanImagePaths[0] + " image" << endl;
-        return;
-    }
-    humanHeroSprite.setTexture(humanHeroTexture);
-    humanHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
-    humanHeroSprite.setPosition(offsetX - 400, offsetY + 350);
-    mainCharacters.push_back(humanHeroSprite);
-
-
-
-
-        // Load a font for health percentage text
+    // Load a font for health percentage text
     Font font;
     if (!font.loadFromFile("fonts/arial.ttf"))
     {
@@ -201,15 +202,15 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
     }
 
 
-        // Create health percentage texts
-    vector<Text> humanHealthTexts(4);  // 4 for human, 4 for orc
-    vector<Sprite> humanUnitIcons(4);
-    vector<Texture> humanIconTextures(4);
-    vector<Text> orcHealthTexts(4);  // 4 for human, 4 for orc
-    vector<Sprite> orcUnitIcons(4);
-    vector<Texture> orcIconTextures(4);
+    // Create health percentage texts
+    vector<Text> humanHealthTexts(insan_imparatorlugu.birimSayisi);  // 4 for human, 4 for orc
+    vector<Sprite> humanUnitIcons(insan_imparatorlugu.birimSayisi);
+    vector<Texture> humanIconTextures(insan_imparatorlugu.birimSayisi);
+    vector<Text> orcHealthTexts(ork_legi.birimSayisi);  // 4 for human, 4 for orc
+    vector<Sprite> orcUnitIcons(ork_legi.birimSayisi);
+    vector<Texture> orcIconTextures(ork_legi.birimSayisi);
 
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < insan_imparatorlugu.birimSayisi; ++i)
     {
         string humanIconPath = "images/" + (string)(insan_imparatorlugu.birimler[i].isim) + ".png";
         string orcIconPath = "images/" + (string)(ork_legi.birimler[i].isim) + ".png";
@@ -250,11 +251,11 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
 
 
     // Health bars setup
-    vector<RectangleShape> humanHealthBars(4), humanEmptyBars(4), orcHealthBars(4), orcEmptyBars(4);
+    vector<RectangleShape> humanHealthBars(insan_imparatorlugu.birimSayisi), humanEmptyBars(insan_imparatorlugu.birimSayisi), orcHealthBars(ork_legi.birimSayisi), orcEmptyBars(ork_legi.birimSayisi);
     float barWidth = 200.0f*1.15, barHeight = 20.0f*1.15, barSpacing = 60.0f;
     float humanHealth,orcHealth;
     // Health bar and unit image setup loop
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < insan_imparatorlugu.birimSayisi; ++i)
     {
         float yOffset = 300.0f + i * barSpacing;
 
@@ -317,11 +318,11 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
                 window.close();
             }
             if (event.key.code == Keyboard::Space)
-                {
-                    window.close();
-                    renderInterface(insan_imparatorlugu,ork_legi);
-                    return;
-                }
+            {
+                window.close();
+                renderInterface(insan_imparatorlugu,ork_legi);
+                return;
+            }
 
             if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
             {
@@ -342,10 +343,11 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         // Draw hexagons, unit images, health bars, and main characters
         for (const auto& hex : hexagons) window.draw(hex);
         for (const auto& unit : unitImages) window.draw(unit);
-        for (const auto& hero : mainCharacters) window.draw(hero);
+        if(insan_imparatorlugu.kahramanSayisi||insan_imparatorlugu.canavarSayisi||ork_legi.kahramanSayisi||ork_legi.canavarSayisi)
+            for (const auto& hero : mainCharacters) window.draw(hero);
 
         // Draw health bars with color changes based on health percentage
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < insan_imparatorlugu.birimSayisi; ++i)
         {
             window.draw(humanEmptyBars[i]);
             window.draw(humanHealthBars[i]);

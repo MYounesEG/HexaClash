@@ -50,7 +50,6 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
         //Ork Legi kahramanin kritik vurusa etkisi
         if(isIn(OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->kahramanlar->bonus_turu," kritik") )
         {
-            printf("%s == %s\n",OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim);
             OrcLejyonu->birimler[i].kritik_sans = OrcLejyonu->birimler[i].kritik_sans*(100+OrcLejyonu->kahramanlar->bonus_degeri)/100.0;
             printf("Ork Legi kahraman etkisinin kritik vurusa etkisi\n");
             printf("%s:%.1f *1.%.0f(bonus degeri) = %.1f yeni kritik vurus \n",OrcLejyonu->birimler[i].isim,oldCritic,OrcLejyonu->kahramanlar->bonus_degeri,OrcLejyonu->birimler[i].kritik_sans);
@@ -167,7 +166,6 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         if(isIn(insanImparatorlugu->kahramanlar->etkilenen,insanImparatorlugu->birimler[i].isim) && isIn(insanImparatorlugu->kahramanlar->bonus_turu,"saldiri"))
         {
-            printf("%s == %s\n",insanImparatorlugu->kahramanlar->etkilenen,insanImparatorlugu->birimler[i].isim);
             BirimSaldiri*=(1+insanImparatorlugu->kahramanlar->bonus_degeri/100.0);
             printf("Insan imparatorlugu saldirisina kahraman etkisi\n");
             printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi\n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].saldiri,insanImparatorlugu->kahramanlar->bonus_degeri,BirimSaldiri);
@@ -176,7 +174,6 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         if(isIn(insanImparatorlugu->canavarlar->etkilenen,insanImparatorlugu->birimler[i].isim)&&isIn(insanImparatorlugu->canavarlar->etki_turu,"saldiri"))
         {
-                        printf("%s ====== %s\n",insanImparatorlugu->canavarlar->etkilenen,insanImparatorlugu->birimler[i].isim);
             BirimSaldiri*=(1+insanImparatorlugu->canavarlar->etki_degeri/100.0);
             printf("Insan imparatorlugu saldirisina Canavar etkisi\n");
             printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].saldiri,insanImparatorlugu->kahramanlar->bonus_degeri,BirimSaldiri);
@@ -186,7 +183,6 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         if(isIn(insanImparatorlugu->arastirma_seviyesi.isim,"saldiri_gelistirmesi"))
         {
-            printf("%s == %s\n",insanImparatorlugu->arastirma_seviyesi.isim,"saldiri_gelistirmesi");
             BirimSaldiri *= (1+insanImparatorlugu->arastirma_seviyesi.oran/100.0);
             printf("Insan imparatorlugu saldirisina saldiri gelistirme etkisi\n");
             printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi\n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].saldiri,insanImparatorlugu->arastirma_seviyesi.oran,BirimSaldiri);
@@ -314,7 +310,6 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         if(isIn(OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->kahramanlar->bonus_turu,"saldiri") )
         {
-            printf("%s == %s\n",OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim );
             BirimSaldiri*=(1+OrcLejyonu->kahramanlar->bonus_degeri/100.0);
             printf("Ork Legi saldirisina Kahraman etkisi\n");
             printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi\n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].saldiri,OrcLejyonu->kahramanlar->bonus_degeri,BirimSaldiri);
