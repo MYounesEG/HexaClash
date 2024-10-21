@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1729175385 source:c:\users\administrator\desktop\bir test\whysfml\gameinterface.cpp
+1729508017 source:c:\users\administrator\desktop\bir test\whysfml\gameinterface.cpp
 	<SFML/Graphics.hpp>
 	<cmath>
 	<vector>
 	<iostream>
 	<cstring>
+	<ctime>
 	"classes.h"
 	"gameInterface.h"
 
@@ -426,32 +427,43 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1729105527 c:\users\administrator\desktop\bir test\whysfml\classes.h
+1729500845 c:\users\administrator\desktop\bir test\whysfml\classes.h
 
-1729175156 c:\users\administrator\desktop\bir test\whysfml\gameinterface.h
+1729500898 c:\users\administrator\desktop\bir test\whysfml\gameinterface.h
 
-1729175338 source:c:\users\administrator\desktop\bir test\whysfml\main.c
+1729508191 source:c:\users\administrator\desktop\bir test\whysfml\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	<ctype.h>
+	<windows.h>
 	"classes.h"
 	"functions.h"
 	"gameInterface.h"
+	"fightFunction.h"
 
-1729105527 c:\users\administrator\desktop\bir test\whysfml\functions.h
+1729500252 c:\users\administrator\desktop\bir test\whysfml\functions.h
 	<stdio.h>
 	<stdlib.h>
+	<stdbool.h>
 	<string.h>
 	<ctype.h>
 	"classes.h"
 	"readfunctions.h"
 
-1729105527 c:\users\administrator\desktop\bir test\whysfml\readfunctions.h
+1729432945 c:\users\administrator\desktop\bir test\whysfml\readfunctions.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
+	"classes.h"
+
+1729500845 c:\users\administrator\desktop\bir test\whysfml\fightfunction.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<stdbool.h>
 	"classes.h"
 

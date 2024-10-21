@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void grafik(Takim insan_imparatorlugu,Takim ork_legi);
+void renderInterface(Takim humanEmpire, Takim orcLegion);
 
 #ifdef __cplusplus
 }

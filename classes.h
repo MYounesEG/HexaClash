@@ -21,12 +21,14 @@ typedef struct Unit{
 }Unit;
 
 
+
 typedef struct Hero{
     char isim[100];
     char bonus_turu[100];
     float bonus_degeri;
     char etkilenen[100];
 }Hero;
+
 
 
 typedef struct Monester{
@@ -38,7 +40,6 @@ typedef struct Monester{
 
 
 
-
 typedef struct Research{
     char isim[50];
     int seviye;
@@ -47,6 +48,7 @@ typedef struct Research{
     char etkilenen[50];
 
 }Research;
+
 
 
 typedef struct Takim{

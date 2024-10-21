@@ -57,8 +57,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="readfunctions.h" />
-		<Unit filename="whySfml.depend" />
-		<Unit filename="whySfml.layout" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 #include "classes.h"
@@ -9,7 +10,7 @@
 
 
 bool in(char str1[],char str2[]);                            // return True if the str2 in str1
-bool inFile(FILE* f,char str1[]);                            // check if the word is it in file  
+bool inFile(FILE* f,char str1[]);                            // check if the word is it in file
 void root(char kelime[]);                                    // change the word for the original status
 void getWord_S(char line[],char word[]);                     // get the first word in line
 void getWord_F(FILE* f,char word[]);                         // gets the first word from the cursor position

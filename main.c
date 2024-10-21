@@ -11,8 +11,8 @@
 
 int main()
 {
-    int SenarioNumber=5;
-    char senaryoFile[10] = "5.json";
+    int SenarioNumber;
+    char senaryoFile[20] = "test.json";
     char sentence[]="Please Enter a Senario number : ";
     for (int i=0;i<strlen(sentence);i++)
     {
@@ -23,9 +23,10 @@ int main()
     }
 
 
-//    scanf("%d",&SenarioNumber);
+    scanf("%d",&SenarioNumber);
 
-   // downloadFile(SenarioNumber,senaryoFile);
+   if(SenarioNumber) downloadFile(SenarioNumber,senaryoFile);
+
 
     Takim insan_imparatorlugu = {"insan_imparatorlugu"};
 
@@ -36,7 +37,7 @@ int main()
     readTakim(&ork_legi,senaryoFile);
 
 
-    grafik(insan_imparatorlugu,ork_legi);
+    renderInterface(insan_imparatorlugu,ork_legi);
 
 
     /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
@@ -45,8 +46,10 @@ int main()
     /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
     /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
-    grafik(insan_imparatorlugu,ork_legi);
-  //  deleteFile(senaryoFile);
+    renderInterface(insan_imparatorlugu,ork_legi);
+
+
+    if(SenarioNumber) deleteFile(senaryoFile);
 
 
     return 0;
