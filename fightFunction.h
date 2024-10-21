@@ -172,11 +172,12 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("\n");
         }
 
+
         if(isIn(insanImparatorlugu->canavarlar->etkilenen,insanImparatorlugu->birimler[i].isim)&&isIn(insanImparatorlugu->canavarlar->etki_turu,"saldiri"))
         {
             BirimSaldiri*=(1+insanImparatorlugu->canavarlar->etki_degeri/100.0);
             printf("Insan imparatorlugu saldirisina Canavar etkisi\n");
-            printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].saldiri,insanImparatorlugu->kahramanlar->bonus_degeri,BirimSaldiri);
+            printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].saldiri,insanImparatorlugu->canavarlar->etki_degeri,BirimSaldiri);
             printf("\n");
 
         }
@@ -219,6 +220,10 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("%s: %.0f birim * %.0f savunma gucu *1.%.0f(bonus degeri) = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,OrcLejyonu->kahramanlar->bonus_degeri,Birimsavunma);
             printf("\n");
         }
+        else
+        printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,Birimsavunma);
+        printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,Birimsavunma);
+
         if(isIn(OrcLejyonu->canavarlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->canavarlar->etki_turu,"savunma") )
         {
             Birimsavunma*=(1+OrcLejyonu->canavarlar->etki_degeri/100.0);
@@ -227,6 +232,9 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("\n");
 
         }
+        else
+        printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,Birimsavunma);
+
 
 
         if(isIn(OrcLejyonu->arastirma_seviyesi.isim,"savunma_ustaligi"))
@@ -236,6 +244,9 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("%s: %.0f birim * %.0f savunma gucu *1.%.0f(bonus degeri) = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,OrcLejyonu->arastirma_seviyesi.oran,Birimsavunma);
             printf("\n");
         }
+        else
+         printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi \n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].savunma,Birimsavunma);
+
 
         OrcLejyonu->totalDefence+=Birimsavunma;
 
@@ -258,15 +269,12 @@ void insanSaldiri_OrkSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         float damage = ((OrcLejyonu->birimler[i].savunma*OrcLejyonu->birimler[i].sayi)/(float)OrcLejyonu->totalDefence)*netHasar;
         printf("%s birimin %f hasar miktari ",OrcLejyonu->birimler[i].isim,damage);
         printf("\n");
-        float death = damage/OrcLejyonu->birimler[i].saglik;
         //Birimlerin toplam olu sayilerinin belirlenmesi ve mevcut birim sayisisindan eksiltilmesi
-        death = death > 0 ? death : 0;
-        OrcLejyonu->birimler[i].sayi -= death;
+
 
         if(OrcLejyonu->birimler[i].sayi<0)
             OrcLejyonu->birimler[i].sayi=0;
 
-        printf("%s birimden %.0f kisi oldu \n",OrcLejyonu->birimler[i].isim,death);
         printf("\n");
         //birimlerin saglik durumlarinin guncellenmesi
         OrcLejyonu->birimler[i].saglik -= (netHasar/OrcLejyonu->birimler[i].sayi) > 0 ? (netHasar/OrcLejyonu->birimler[i].sayi) : 0;
@@ -311,6 +319,7 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         if(isIn(OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->kahramanlar->bonus_turu,"saldiri") )
         {
             BirimSaldiri*=(1+OrcLejyonu->kahramanlar->bonus_degeri/100.0);
+
             printf("Ork Legi saldirisina Kahraman etkisi\n");
             printf("%s: %.0f birim * %.0f saldiri gucu *1.%.0f(bonus degeri) = %.0f toplam saldirisi\n",OrcLejyonu->birimler[i].isim,OrcLejyonu->birimler[i].sayi,OrcLejyonu->birimler[i].saldiri,OrcLejyonu->kahramanlar->bonus_degeri,BirimSaldiri);
             printf("\n");
@@ -356,6 +365,11 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("%s: %.0f birim * %.0f savunma gucu *1.%.0f(bonus degeri) = %.0f toplam savunmasi \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,insanImparatorlugu->kahramanlar->bonus_degeri,Birimsavunma);
             printf("\n");
         }
+        else
+            printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi\n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,Birimsavunma);
+
+
+
 
         if(insanImparatorlugu->canavarlar->etkilenen,insanImparatorlugu->birimler[i].isim && isIn(insanImparatorlugu->canavarlar->etki_turu,"savunma") )
         {
@@ -364,6 +378,9 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("%s: %.0f birim * %.0f savunma gucu *1.%.0f(bonus degeri ) = %.0f toplam savunmasi  %.0f \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,insanImparatorlugu->canavarlar->etki_degeri,Birimsavunma);
             printf("\n");
         }
+        else
+            printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi\n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,Birimsavunma);
+
 
         if(isIn(insanImparatorlugu->arastirma_seviyesi.isim,"savunma_ustaligi"))
         {
@@ -372,6 +389,10 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
             printf("%s: %.0f birim * %.0f savunma gucu *1.%.0f(savunma ustaligi etkisi) = %.0f toplam savunmasi  \n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,insanImparatorlugu->arastirma_seviyesi.oran,Birimsavunma);
             printf("\n");
         }
+        else
+            printf("%s: %.0f birim * %.0f savunma gucu = %.0f toplam savunmasi\n",insanImparatorlugu->birimler[i].isim,insanImparatorlugu->birimler[i].sayi,insanImparatorlugu->birimler[i].savunma,Birimsavunma);
+
+
 
         insanImparatorlugu->totalDefence+=Birimsavunma;
     }
@@ -394,10 +415,7 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
         float damage = ((insanImparatorlugu->birimler[i].savunma*insanImparatorlugu->birimler[i].sayi)/(float)insanImparatorlugu->totalDefence)*netHasar;
         printf("%s birimin %f hasar miktari ",insanImparatorlugu->birimler[i].isim,damage);
         printf("\n");
-        float death = damage/insanImparatorlugu->birimler[i].saglik;
-        //Birimlerin toplam olu sayilerinin belirlenmesi ve mevcut birim sayisisindan eksiltilmesi
-        death = death > 0 ? death : 0;
-        insanImparatorlugu->birimler[i].sayi -= death;
+
 
         if(insanImparatorlugu->birimler[i].sayi<=0){
             insanImparatorlugu->birimler[i].sayi=0;
@@ -405,7 +423,6 @@ void OrkSaldiri_insanSavunma(Takim* insanImparatorlugu,Takim* OrcLejyonu,int ste
 
         }
 
-        printf("%s birimden %.0f kisi oldu \n",insanImparatorlugu->birimler[i].isim,death);
         printf("\n");
 
         //birimlerin saglik durumlarinin guncellenmesi
