@@ -230,7 +230,7 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         humanUnitIcons[i].setScale(0.2f, 0.2f);
 
         humanHealthTexts[i].setFont(font);
-        humanHealthTexts[i].setString(to_string((int)insan_imparatorlugu.birimler[i].sayi)); // Display health as percentage
+        humanHealthTexts[i].setString("%"+to_string((int)(insan_imparatorlugu.birimler[i].saglik*100/insan_imparatorlugu.birimler[i].orjinal_saglik))); // Display health as percentage
         humanHealthTexts[i].setCharacterSize(18);
         humanHealthTexts[i].setFillColor(Color::Black);
 
@@ -239,7 +239,8 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         orcUnitIcons[i].setScale(0.2f, 0.2f);
 
         orcHealthTexts[i].setFont(font);
-        orcHealthTexts[i].setString(to_string((int)ork_legi.birimler[i].sayi)); // Display health as percentage
+        orcHealthTexts[i].setString("%"+to_string(((int)(ork_legi.birimler[i].saglik*100/ork_legi.birimler[i].orjinal_saglik)))); // Display health as percentage
+
         orcHealthTexts[i].setCharacterSize(18);
         orcHealthTexts[i].setFillColor(Color::Black);
 
