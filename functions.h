@@ -8,7 +8,7 @@
 
 #define lineSize 200
 
-
+void welcome();                                              // Say Hi to the user :)
 bool in(char str1[],char str2[]);                            // return True if the str2 in str1
 bool inFile(FILE* f,char str1[]);                            // check if the word is it in file
 void root(char kelime[]);                                    // change the word for the original status
@@ -24,6 +24,34 @@ void readTakim(Takim* team,char fileName[]);                 // reading all the 
 
 
 
+void welcome()
+{
+
+    system("cls");
+    char hex[]="47BCDE",index=0;
+
+    char color[]="color 00";
+    printf("\t\t\t\t\t\t");
+    char string[]="W E L C O M E ;)\n\n\nPlease Enter a Scenario number : ";
+
+    for (int i=0; i<strlen(string); i++)
+    {
+
+        printf("%c",string[i]);
+        fflush(stdout);
+        usleep(100);
+
+
+        system(color);
+
+        index++;
+        //color[6]=hex[(index)%6];
+        color[7]=hex[(index+1)%6];
+    }
+    system("color F");
+
+}
+
 bool in(char str1[],char str2[])
 {
     if(strstr(str1,str2)!=NULL)
@@ -32,12 +60,15 @@ bool in(char str1[],char str2[])
 
 }
 
-bool inFile(FILE* f, char str1[]) {
+bool inFile(FILE* f, char str1[])
+{
     fseek(f, 0, SEEK_SET);
     char line[lineSize] = {0};
 
-    while (fgets(line, lineSize, f) != NULL) {
-        if (in(line, str1)) {
+    while (fgets(line, lineSize, f) != NULL)
+    {
+        if (in(line, str1))
+        {
             return true; // word found
         }
     }
@@ -153,12 +184,36 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
         printf("Plase Enter a vailed number ! \n\t\tExiting.....\n\n");
         exit(1);
     }
+
+    system("cls");
+
+
+
+    char string[]="Downloading the scenario file\n\n\tplease wait.....";
+    int delay=1000;
+    for (int i=0; i<strlen(string); i++)
+    {
+
+        printf("%c",string[i]);
+        fflush(stdout);
+        usleep(delay);
+        if(i==41)
+            delay*=1000;
+    }
+    system("cls");
+
+
+
+
+
     sprintf(senaryoFile,"%d.json",SenarioNumber);
 
     char downloadCommand [50]= {0};
     sprintf(downloadCommand,"curl https://yapbenzet.org.tr/%s -o %s",senaryoFile,senaryoFile);
 
     system(downloadCommand);
+
+    system("cls");
 }
 
 void deleteFile(char senaryoFile[])

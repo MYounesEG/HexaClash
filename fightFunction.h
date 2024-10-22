@@ -114,7 +114,6 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
 
 
 }
-
 float netDamage(float totalAct,float totalDefence) //net hasar icin
 {
     return totalAct *(1-((float)totalDefence / totalAct));

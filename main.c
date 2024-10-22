@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <windows.h>
+#include <unistd.h>
 #include "classes.h"
 #include "functions.h"
 #include "gameInterface.h"
@@ -13,17 +14,11 @@ int main()
 {
     int SenarioNumber;
     char senaryoFile[20] = "test.json";
-    char sentence[]="Please Enter a Senario number : ";
-    for (int i=0;i<strlen(sentence);i++)
-    {
-        system("cls");
-        for(int j=0;j<i+1;j++)
-            printf("%c",sentence[j]);
-        Sleep(0.2);
-    }
 
+    welcome();
 
     scanf("%d",&SenarioNumber);
+
 
    if(SenarioNumber) downloadFile(SenarioNumber,senaryoFile);
 
