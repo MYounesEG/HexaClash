@@ -469,5 +469,5 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
     }
     while(checkWiner(*insan_imparatorlugu,*ork_legi) == 0);
 
-
+    system("cls");
 }

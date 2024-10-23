@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 #include "classes.h"
 #include "readfunctions.h"
 
@@ -21,7 +22,8 @@ void nextLine(FILE *f,char line[]);                          // get the next lin
 void downloadFile(int SenarioNumber,char fileName[]);        // download the scenario file using the number
 void deleteFile(char senaryoFile[]);                         // deleting file the scenario file using the fileName
 void readTakim(Takim* team,char fileName[]);                 // reading all the team informations from the scenario file
-
+void openLog();                                              // open the log file
+void repeat();                                               // re run the program if the user want's to
 
 
 void welcome()
@@ -29,11 +31,17 @@ void welcome()
 
     system("cls");
     char hex[]="47BCDE",index=0;
-
     char color[]="color 00";
-    printf("\t\t\t\t\t\t");
-    char string[]="W E L C O M E ;)\n\n\nPlease Enter a Scenario number : ";
 
+    printf("Created by:\n\n\n\n@Phoneix369\n\n@MYounesEG\n\n\n\n\n\t\t\t");
+
+    system("pause&&cls");
+
+    PlaySound("music\\music.wav", NULL, SND_FILENAME | SND_ASYNC);
+    sleep(2);
+
+    printf("\n\n\n\n\n\t\t\t\t\t\t");
+    char string[]="W E L C O M E   ;)";
     for (int i=0; i<strlen(string); i++)
     {
 
@@ -49,6 +57,28 @@ void welcome()
         color[7]=hex[(index+1)%6];
     }
     system("color F");
+
+    sleep(3);
+
+    system("cls");
+
+    char ask[]="Please Enter a Scenario number : ";
+
+    printf("\n\n\n\n\n\t\t\t\t\t");
+    for (int i=0; i<strlen(ask); i++)
+    {
+
+        printf("%c",ask[i]);
+        fflush(stdout);
+        usleep(100);
+
+
+        system(color);
+
+        index++;
+        //color[6]=hex[(index)%6];
+        color[7]=hex[(index+1)%6];
+    }
 
 }
 
@@ -179,13 +209,15 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
 
 void downloadFile(int SenarioNumber,char senaryoFile[])
 {
+    system("cls");
+    if (SenarioNumber==0)
+        return;
     if (!(SenarioNumber<=10&&SenarioNumber>=1))
     {
         printf("Plase Enter a vailed number ! \n\t\tExiting.....\n\n");
         exit(1);
     }
 
-    system("cls");
 
 
 
@@ -209,7 +241,7 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
     sprintf(senaryoFile,"%d.json",SenarioNumber);
 
     char downloadCommand [50]= {0};
-    sprintf(downloadCommand,"curl https://yapbenzet.org.tr/%s -o %s",senaryoFile,senaryoFile);
+    sprintf(downloadCommand,"curl https://yapbenzet.org.tr/%s -o %s  > nul 2>&1",senaryoFile,senaryoFile);
 
     system(downloadCommand);
 
@@ -323,4 +355,67 @@ void readTakim(Takim* team,char fileName[])
     }
 
     fclose(f);
+}
+
+void openLog(){
+
+    system("log.txt");
+
+    sleep(2);
+
+    system("pause");
+
+}
+
+void repeat()
+{
+
+    char hex[]="47BCDE",index=0;
+    char color[]="color 00";
+    system("cls");
+    char str []= "\n\n\n\n\t\t\t\t\tThe war is end :) \n\n\n\n\t\t\t\t   Want to play again ? (1/0): ";
+
+    for (int i=0; i<strlen(str); i++)
+    {
+
+        printf("%c",str[i]);
+        fflush(stdout);
+        usleep(100);
+
+
+        system(color);
+
+        index++;
+        //color[6]=hex[(index)%6];
+        color[7]=hex[(index+1)%6];
+    }
+
+    int again;
+    scanf("%d",&again);
+    system("cls");
+    if(again){
+
+        PlaySound(NULL, NULL, 0);
+        main();
+    }
+    else{
+            index=0;
+            printf("\n\n\n\n\n\n");
+        char bye []= "\t\t\t\t\tG A M E O V E R\n\n\n\n\t\t\t\t     Thank you for playing.";
+    for (int i=0; i<strlen(bye); i++)
+    {
+
+        printf("%c",bye[i]);
+        fflush(stdout);
+        usleep(100);
+
+
+        system(color);
+
+        index++;
+        //color[6]=hex[(index)%6];
+        color[7]=hex[(index+1)%6];
+    }
+    }
+    printf("\n\n\n\n\n");
 }

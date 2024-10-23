@@ -20,7 +20,7 @@ int main()
     scanf("%d",&SenarioNumber);
 
 
-   if(SenarioNumber) downloadFile(SenarioNumber,senaryoFile);
+   downloadFile(SenarioNumber,senaryoFile);
 
 
     Takim insan_imparatorlugu = {"insan_imparatorlugu"};
@@ -44,8 +44,11 @@ int main()
     renderInterface(insan_imparatorlugu,ork_legi);
 
 
+    openLog();
+
     if(SenarioNumber) deleteFile(senaryoFile);
 
+    repeat();
 
     return 0;
 }
