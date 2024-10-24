@@ -7,7 +7,7 @@
 
 bool isIn(char string1[], char string2[]);
 int checkWiner(Takim* insanImparatorlugu, Takim* OrkLegi, FILE* file);
-void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu);
+void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu,FILE* file);
 float netDamage(float totalAct,float totalDefence); //net hasar icin
 void updateAttactDefence(Takim* team1, Takim* team2, FILE* file);    //yorgunluga gore saldiri ve savunma durumunun guncellenmesi
 void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file);
@@ -32,7 +32,7 @@ int checkWiner(Takim* insanImparatorlugu, Takim* OrkLegi, FILE* file)
 
     if(totalUnitInsan<=0)
     {
-        printf("\n\n\t\tInsanlar hepsi oldu, Orklar kazandi");
+        fprintf(file,"\n\n\t\tInsanlar hepsi oldu, Orklar kazandi");
         insanImparatorlugu->kahramanSayisi=0;
         insanImparatorlugu->canavarSayisi=0;
 
@@ -40,7 +40,7 @@ int checkWiner(Takim* insanImparatorlugu, Takim* OrkLegi, FILE* file)
     }
     else if(totalUnitOrk<=0)
     {
-        printf("\n\n\t\tOrklar hepsi oldu,Insanlar kazandi");
+        fprintf(file,"\n\n\t\tOrklar hepsi oldu,Insanlar kazandi");
         OrkLegi->kahramanSayisi=0;
         OrkLegi->canavarSayisi=0;
 
@@ -52,7 +52,7 @@ int checkWiner(Takim* insanImparatorlugu, Takim* OrkLegi, FILE* file)
 
 }
 
-void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
+void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu,FILE* file)
 {
     //Ork Legi kritik vurus etkisi
     for(int i=0; i<OrcLejyonu->birimSayisi; i++)//
@@ -63,27 +63,27 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
         if(isIn(OrcLejyonu->kahramanlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->kahramanlar->bonus_turu," kritik") )
         {
             OrcLejyonu->birimler[i].kritik_sans = OrcLejyonu->birimler[i].kritik_sans*(100+OrcLejyonu->kahramanlar->bonus_degeri)/100.0;
-            printf("Ork Legi kahraman etkisinin kritik vurusa etkisi\n");
-            printf("%s:%.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",OrcLejyonu->birimler[i].isim,oldCritic,1+OrcLejyonu->kahramanlar->bonus_degeri/100.0,OrcLejyonu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"Ork Legi kahraman etkisinin kritik vurusa etkisi\n");
+            fprintf(file,"%s:%.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",OrcLejyonu->birimler[i].isim,oldCritic,1+OrcLejyonu->kahramanlar->bonus_degeri/100.0,OrcLejyonu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
         }
 
         //Ork Legi canavarın kritik vurusa etkisi
         if(isIn(OrcLejyonu->canavarlar->etkilenen,OrcLejyonu->birimler[i].isim) && isIn(OrcLejyonu->canavarlar->etki_turu," kritik") )
         {
             OrcLejyonu->birimler[i].kritik_sans = OrcLejyonu->birimler[i].kritik_sans*(100+OrcLejyonu->canavarlar->etki_degeri)/100.0;
-            printf("Ork Legi canavar etkisinin kritik vurusa etkisi\n");
-            printf("%s: %.2f * %.2f(bonus degeri)=%.2f yeni kritik vurus  \n",OrcLejyonu->birimler[i].isim,oldCritic,1 + OrcLejyonu->canavarlar->etki_degeri/100.0,OrcLejyonu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"Ork Legi canavar etkisinin kritik vurusa etkisi\n");
+            fprintf(file,"%s: %.2f * %.2f(bonus degeri)=%.2f yeni kritik vurus  \n",OrcLejyonu->birimler[i].isim,oldCritic,1 + OrcLejyonu->canavarlar->etki_degeri/100.0,OrcLejyonu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
         }
 
         //Ork Legi elit egitimin  vurusa etkisi
         if(isIn(OrcLejyonu->arastirma_seviyesi.isim,"elit_egitim"))
         {
             OrcLejyonu->birimler[i].kritik_sans = OrcLejyonu->birimler[i].kritik_sans*(100+OrcLejyonu->arastirma_seviyesi.oran)/100.0;
-            printf("Ork Legi elit egitimin kritik vurusa  etkisi\n");
-            printf("%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",OrcLejyonu->birimler[i].isim,oldCritic,1 + OrcLejyonu->arastirma_seviyesi.oran / 100.0,OrcLejyonu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"Ork Legi elit egitimin kritik vurusa  etkisi\n");
+            fprintf(file,"%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",OrcLejyonu->birimler[i].isim,oldCritic,1 + OrcLejyonu->arastirma_seviyesi.oran / 100.0,OrcLejyonu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
 
         }
     }
@@ -97,9 +97,9 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
         {
 
             insanImparatorlugu->birimler[i].kritik_sans = insanImparatorlugu->birimler[i].kritik_sans*(100+insanImparatorlugu->kahramanlar->bonus_degeri)/100.0;
-            printf("insan impartorlugu kahraman etkisinin kritik vurusa etkisi\n");
-            printf("%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus  \n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->kahramanlar->bonus_degeri / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"insan impartorlugu kahraman etkisinin kritik vurusa etkisi\n");
+            fprintf(file,"%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus  \n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->kahramanlar->bonus_degeri / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
 
         }
         //insan imparatorlugunun canavarın kritik vurusa etkisi
@@ -107,9 +107,9 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
         {
 
             insanImparatorlugu->birimler[i].kritik_sans = insanImparatorlugu->birimler[i].kritik_sans*(100+insanImparatorlugu->canavarlar->etki_degeri)/100.0;
-            printf("insan imparatorlugu canavar etkisinin kritik vurusa  etkisi\n");
-            printf("%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->canavarlar->etki_degeri / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"insan imparatorlugu canavar etkisinin kritik vurusa  etkisi\n");
+            fprintf(file,"%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus \n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->canavarlar->etki_degeri / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
         }
 
         //insan imparatorlugunun elit egitimin kritik vurusa etkisi
@@ -117,9 +117,9 @@ void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu)
         if(isIn(insanImparatorlugu->arastirma_seviyesi.isim,"elit_egitim"))
         {
             insanImparatorlugu->birimler[i].kritik_sans = insanImparatorlugu->birimler[i].kritik_sans*(100+insanImparatorlugu->arastirma_seviyesi.oran)/100.0;
-            printf("insan imparatorlugunun elit egitimin kritik vurusa  etkisi\n");
-            printf("%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus\n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->arastirma_seviyesi.oran / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
-            printf("\n");
+            fprintf(file,"insan imparatorlugunun elit egitimin kritik vurusa  etkisi\n");
+            fprintf(file,"%s: %.2f * %.2f(bonus degeri) = %.2f yeni kritik vurus\n",insanImparatorlugu->birimler[i].isim,oldCritic,1 + insanImparatorlugu->arastirma_seviyesi.oran / 100.0,insanImparatorlugu->birimler[i].kritik_sans);
+            fprintf(file,"\n");
         }
 
     }
@@ -134,18 +134,18 @@ float netDamage(float totalAct,float totalDefence) //net hasar icin
 
 void updateAttactDefence(Takim* team1, Takim* team2,FILE* file)//yorgunluga gore saldiri ve savunma durumunun guncellenmesi
 {
-    printf("\nYourgunluk hesaplama !\n");
+    fprintf(file,"\nYourgunluk hesaplama !\n");
     for(int i=0; i<team1->birimSayisi; i++)
     {
         team1->birimler[i].saldiri *= 0.9;
         team1->birimler[i].savunma *= 0.9;
-        printf("%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team1->birimler[i].isim,team1->birimler[i].saldiri,team1->birimler[i].savunma);
+        fprintf(file,"%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team1->birimler[i].isim,team1->birimler[i].saldiri,team1->birimler[i].savunma);
     }
     for(int i=0; i<team2->birimSayisi; i++)
     {
         team2->birimler[i].saldiri *= 0.9;
         team2->birimler[i].savunma *= 0.9;
-        printf("%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team2->birimler[i].isim,team2->birimler[i].saldiri,team2->birimler[i].savunma);
+        fprintf(file,"%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team2->birimler[i].isim,team2->birimler[i].saldiri,team2->birimler[i].savunma);
 
     }
 
@@ -153,9 +153,9 @@ void updateAttactDefence(Takim* team1, Takim* team2,FILE* file)//yorgunluga gore
 
 void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 {
-    printf("\n\nAdim %d: %s saldirisi \n",step+1,saldiran->TakimName);
+    fprintf(file,"\n\nAdim %d: %s saldirisi \n",step+1,saldiran->TakimName);
 
-    printf("\t1. Saldiri Gucu Hesaplamasu (Arastirma ve Canavar Etkileri Dahil):");
+    fprintf(file,"\t1. Saldiri Gucu Hesaplamasu (Arastirma ve Canavar Etkileri Dahil):");
     saldiran->totalAct=0;
     savunan->totalDefence = 0;
 
@@ -165,7 +165,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
     {
         saldiran->birimler[i].toplamSaldiri=1;
 
-        printf("\n\t* %s : %0.f birim x %0.f saldiri gucu",saldiran->birimler[i].isim,saldiran->birimler[i].sayi,saldiran->birimler[i].saldiri);
+        fprintf(file,"\n\t* %s : %0.f birim x %0.f saldiri gucu",saldiran->birimler[i].isim,saldiran->birimler[i].sayi,saldiran->birimler[i].saldiri);
 
         saldiran->birimler[i].toplamSaldiri *= saldiran->birimler[i].saldiri*saldiran->birimler[i].sayi;
 
@@ -174,7 +174,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
         float oran = (1.0/saldiran->birimler[i].kritik_sans)*200.0;
         if((step+1) % (int)oran == 0)
         {
-            printf(" x 1.5(kritik sans)");
+            fprintf(file," x 1.5(kritik sans)");
             saldiran->birimler[i].toplamSaldiri*= 1.5;
         }
 
@@ -182,7 +182,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 
         if(isIn(saldiran->kahramanlar->etkilenen,saldiran->birimler[i].isim) && isIn(saldiran->kahramanlar->bonus_turu,"saldiri"))
         {
-            printf(" x %.2f (%s kahramanin bonusu)",(1+saldiran->kahramanlar->bonus_degeri/100.0),saldiran->kahramanlar->isim);
+            fprintf(file," x %.2f (%s kahramanin bonusu)",(1+saldiran->kahramanlar->bonus_degeri/100.0),saldiran->kahramanlar->isim);
             saldiran->birimler[i].toplamSaldiri*=(1+saldiran->kahramanlar->bonus_degeri/100.0);
         }
 
@@ -190,7 +190,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
         if(isIn(saldiran->canavarlar->etkilenen,saldiran->birimler[i].isim)&&isIn(saldiran->canavarlar->etki_turu,"saldiri"))
         {
             saldiran->birimler[i].toplamSaldiri*=(1+saldiran->canavarlar->etki_degeri/100.0);
-            printf(" x %.2f (%s canavarin etkisi)",(1+saldiran->canavarlar->etki_degeri/100.0),saldiran->canavarlar->isim);
+            fprintf(file," x %.2f (%s canavarin etkisi)",(1+saldiran->canavarlar->etki_degeri/100.0),saldiran->canavarlar->isim);
 
         }
 
@@ -202,26 +202,26 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
           )
         {
             saldiran->birimler[i].toplamSaldiri *= (1+saldiran->arastirma_seviyesi.oran/100.0);
-            printf(" x %.2f (%s arastirma seviyesi)",1+saldiran->arastirma_seviyesi.oran/100.0,saldiran->arastirma_seviyesi.isim);
+            fprintf(file," x %.2f (%s arastirma seviyesi)",1+saldiran->arastirma_seviyesi.oran/100.0,saldiran->arastirma_seviyesi.isim);
         }
 
-        printf(" = %0.f\n",saldiran->birimler[i].toplamSaldiri);
+        fprintf(file," = %0.f\n",saldiran->birimler[i].toplamSaldiri);
 
         saldiran->totalAct+=saldiran->birimler[i].toplamSaldiri;
     }
 
-    printf("\n\n\tToplam Saldiri Gucu (%s):\n\t",saldiran->TakimName);
+    fprintf(file,"\n\n\tToplam Saldiri Gucu (%s):\n\t",saldiran->TakimName);
     for(int i=0; i<saldiran->birimSayisi; i++)
-        printf("%c %.0f (%s) ",(i)?'+':'\0',saldiran->birimler[i].toplamSaldiri,saldiran->birimler[i].isim);
-    printf(" = %.0f",saldiran->totalAct);
+        fprintf(file,"%c %.0f (%s) ",(i)?'+':'\0',saldiran->birimler[i].toplamSaldiri,saldiran->birimler[i].isim);
+    fprintf(file," = %.0f",saldiran->totalAct);
 
-    printf("\n\t2. Savunma Gucu Hesaplamasi (%s):",savunan->TakimName);
+    fprintf(file,"\n\t2. Savunma Gucu Hesaplamasi (%s):",savunan->TakimName);
 
     for(int i=0; i<savunan->birimSayisi; i++)
     {
         savunan->birimler[i].toplamSavunma=1;
 
-        printf("\n\t* %s : %0.f birim x %0.f savunma gucu",savunan->birimler[i].isim,savunan->birimler[i].sayi,savunan->birimler[i].savunma);
+        fprintf(file,"\n\t* %s : %0.f birim x %0.f savunma gucu",savunan->birimler[i].isim,savunan->birimler[i].sayi,savunan->birimler[i].savunma);
 
         savunan->birimler[i].toplamSavunma *= savunan->birimler[i].savunma*savunan->birimler[i].sayi;
 
@@ -229,7 +229,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 
         if(isIn(savunan->kahramanlar->etkilenen,savunan->birimler[i].isim) && isIn(savunan->kahramanlar->bonus_turu,"savunma"))
         {
-            printf(" x %.2f (%s kahramanin bonusu)",(1+savunan->kahramanlar->bonus_degeri/100.0),savunan->kahramanlar->isim);
+            fprintf(file," x %.2f (%s kahramanin bonusu)",(1+savunan->kahramanlar->bonus_degeri/100.0),savunan->kahramanlar->isim);
             savunan->birimler[i].toplamSavunma*=(1+savunan->kahramanlar->bonus_degeri/100.0);
         }
 
@@ -237,29 +237,29 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
         if(isIn(savunan->canavarlar->etkilenen,savunan->birimler[i].isim)&&isIn(savunan->canavarlar->etki_turu,"savunma"))
         {
             savunan->birimler[i].toplamSavunma*=(1+savunan->canavarlar->etki_degeri/100.0);
-            printf(" x %.2f (%s canavarin etkisi)",(1+savunan->canavarlar->etki_degeri/100.0),savunan->canavarlar->isim);
+            fprintf(file," x %.2f (%s canavarin etkisi)",(1+savunan->canavarlar->etki_degeri/100.0),savunan->canavarlar->isim);
 
         }
 
         if(isIn(savunan->arastirma_seviyesi.isim,"savunma_ustaligi"))
         {
             savunan->birimler[i].toplamSavunma *= (1+savunan->arastirma_seviyesi.oran/100.0);
-            printf(" x %.2f (%s arastirma seviyesi)",1+savunan->arastirma_seviyesi.oran/100.0,savunan->arastirma_seviyesi.isim);
+            fprintf(file," x %.2f (%s arastirma seviyesi)",1+savunan->arastirma_seviyesi.oran/100.0,savunan->arastirma_seviyesi.isim);
         }
 
-        printf(" = %0.f\n",savunan->birimler[i].toplamSavunma);
+        fprintf(file," = %0.f\n",savunan->birimler[i].toplamSavunma);
 
         savunan->totalDefence+=savunan->birimler[i].toplamSavunma;
     }
 
 
-    printf("\n\n\tToplam Savunma Gucu (%s):\n\t",savunan->TakimName);
+    fprintf(file,"\n\n\tToplam Savunma Gucu (%s):\n\t",savunan->TakimName);
     for(int i=0; i<savunan->birimSayisi; i++)
-        printf("%c %.0f (%s) ",(i)?'+':'\0',savunan->birimler[i].toplamSavunma,savunan->birimler[i].isim);
+        fprintf(file,"%c %.0f (%s) ",(i)?'+':'\0',savunan->birimler[i].toplamSavunma,savunan->birimler[i].isim);
 
-    printf(" = %.0f",savunan->totalDefence);
+    fprintf(file," = %.0f",savunan->totalDefence);
 
-    printf("\n3. Net Hasar Hesaplamasi:\n");
+    fprintf(file,"\n3. Net Hasar Hesaplamasi:\n");
     //\net hasarin hesaplanmasi
     float netHasar = netDamage(saldiran->totalAct,savunan->totalDefence);
     //eger net hasar negatif cıkarsa sifira esitle
@@ -267,13 +267,13 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 
     if(netHasar<0)
     {
-        printf("\tSavunma gucu daha yuksek oldu icin net hasar sifir ! \n");
+        fprintf(file,"\tSavunma gucu daha yuksek oldu icin net hasar sifir ! \n");
         netHasar=0;
     }
 
-    printf("\t Net Hasar = %.2f * (1-(%.2f/%.2f)) = %.2f\n",saldiran->totalAct,savunan->totalDefence,saldiran->totalAct,netHasar);
+    fprintf(file,"\t Net Hasar = %.2f * (1-(%.2f/%.2f)) = %.2f\n",saldiran->totalAct,savunan->totalDefence,saldiran->totalAct,netHasar);
 
-    printf("4. Orantili Hasar Dagilimi: %s %.2f hasar orantili olarakdagitilir:",savunan->TakimName,netHasar);
+    fprintf(file,"4. Orantili Hasar Dagilimi: %s %.2f hasar orantili olarakdagitilir:",savunan->TakimName,netHasar);
 
     for(int i=0; i<savunan->birimSayisi; i++)
     {
@@ -292,19 +292,19 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
             savunan->birimler[i].saglik=0;
             savunan->birimler[i].sayi=0;
         }
-        printf("\n\t%s yeni saglik : %0.f",savunan->birimler[i].isim,savunan->birimler[i].saglik);
+        fprintf(file,"\n\t%s yeni saglik : %0.f",savunan->birimler[i].isim,savunan->birimler[i].saglik);
 
     }
 
-    printf("\n");
+    fprintf(file,"\n");
 }
 
 
 void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 {
-    FILE* file = fopen("log.txt","w");
+    FILE* file = fopen("savas_sim.txt","w");
 
-    UpdateCriticChance(insan_imparatorlugu,ork_legi);
+    UpdateCriticChance(insan_imparatorlugu,ork_legi,file);
     int step = 0;
     do
     {
@@ -323,6 +323,8 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 
     }
     while(checkWiner(insan_imparatorlugu,ork_legi,file) == 0);
-    printf("\n\n\n");
+    fprintf(file,"\n\n\n");
+
+
     fclose(file);
 }
