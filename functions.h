@@ -15,11 +15,11 @@ bool inFile(FILE* f,char str1[]);                            // check if the wor
 void root(char kelime[]);                                    // change the word for the original status
 void getWord_S(char line[],char word[]);                     // get the first word in line
 void getWord_F(FILE* f,char word[]);                         // gets the first word from the cursor position
-int  getValue(char line[]);                                  // return the integer value of the number in the line
+int  getValue(char line[]);                                  // return the integer value of the sayi in the line
 void gotoLine(FILE*f,char line[],int start,char order[]);    // go to the line where include the "order" (not : searching will start from the "start" point in the file)
 void gotoChar(FILE*f,char order);                            // get the cursor to the place of "order" (not : searching will start from the cursor position)
 void nextLine(FILE *f,char line[]);                          // get the next line
-void downloadFile(int SenarioNumber,char fileName[]);        // download the scenario file using the number
+void downloadFile(int Senariosayi,char fileName[]);        // download the scenario file using the sayi
 void deleteFile(char senaryoFile[]);                         // deleting file the scenario file using the fileName
 void readTakim(Takim* team,char fileName[]);                 // reading all the team informations from the scenario file
 void openLog();                                              // open the log file
@@ -30,7 +30,7 @@ void welcome()
 {
 
     system("cls");
-    char hex[]="47BCDE",index=0;
+    char hex[]="47BCDE13",index=0;
     char color[]="color 00";
 
     printf("Created by:\n\n\n\n@Phoneix369\n\n@MYounesEG\n\n\n\n\n\t\t\t");
@@ -47,22 +47,21 @@ void welcome()
 
         printf("%c",string[i]);
         fflush(stdout);
-        usleep(100);
+        usleep(1000);
 
 
         system(color);
 
         index++;
-        //color[6]=hex[(index)%6];
-        color[7]=hex[(index+1)%6];
+        //color[6]=hex[(index)%9];
+        color[7]=hex[(index+1)%9];
     }
-    system("color F");
 
     sleep(3);
 
     system("cls");
 
-    char ask[]="Please Enter a Scenario number : ";
+    char ask[]="Please Enter a Scenario sayi : ";
 
     printf("\n\n\n\n\n\t\t\t\t\t");
     for (int i=0; i<strlen(ask); i++)
@@ -70,13 +69,13 @@ void welcome()
 
         printf("%c",ask[i]);
         fflush(stdout);
-        usleep(100);
+        usleep(40);
 
 
         system(color);
 
         index++;
-        //color[6]=hex[(index)%6];
+        //   color[6]=hex[(index)%6];
         color[7]=hex[(index+1)%6];
     }
 
@@ -207,15 +206,15 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
     while(!in(line,order));
 }
 
-void downloadFile(int SenarioNumber,char senaryoFile[])
+void downloadFile(int Senariosayi,char senaryoFile[])
 {
 
     system("cls");
-    if (SenarioNumber==0)
+    if (Senariosayi==0)
         return;
-    if (!(SenarioNumber<=10&&SenarioNumber>=1))
+    if (!(Senariosayi<=10&&Senariosayi>=1))
     {
-        printf("Plase Enter a vailed number ! \n\t\tExiting.....\n\n");
+        printf("Plase Enter a vailed sayi ! \n\t\tExiting.....\n\n");
         exit(1);
     }
 
@@ -228,8 +227,8 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
     {
 
         printf("%c",string[i]);
-  //      fflush(stdout);
-  //      usleep(delay);
+              fflush(stdout);
+              usleep(delay);
         if(i==41)
             delay*=1000;
     }
@@ -239,7 +238,7 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
 
 
 
-    sprintf(senaryoFile,"%d.json",SenarioNumber);
+    sprintf(senaryoFile,"%d.json",Senariosayi);
 
     char downloadCommand [50]= {0};
     sprintf(downloadCommand,"curl https://yapbenzet.org.tr/%s -o %s  > nul 2>&1",senaryoFile,senaryoFile);
@@ -358,9 +357,10 @@ void readTakim(Takim* team,char fileName[])
     fclose(f);
 }
 
-void openLog(){
+void openLog()
+{
 
-    system("log.txt");
+    system("savas_sim.txt");
 
 
     system("pause");
@@ -370,7 +370,7 @@ void openLog(){
 void repeat()
 {
 
-    char hex[]="47BCDE",index=0;
+    char hex[]="47BCDE13",index=0;
     char color[]="color 00";
     system("cls");
 
@@ -381,42 +381,44 @@ void repeat()
 
         printf("%c",str[i]);
         fflush(stdout);
-        usleep(100);
+        usleep(70);
 
 
         system(color);
 
         index++;
-        //color[6]=hex[(index)%6];
-        color[7]=hex[(index+1)%6];
+        //color[6]=hex[(index)%9];
+        color[7]=hex[(index+1)%9];
     }
 
     int again;
     scanf("%d",&again);
     system("cls");
-    if(again){
+    if(again)
+    {
 
         PlaySound(NULL, NULL, 0);
         main();
     }
-    else{
-            index=0;
-            printf("\n\n\n\n\n\n");
-        char bye []= "\t\t\t\t\tG A M E O V E R\n\n\n\n\t\t\t\t     Thank you for playing.";
-    for (int i=0; i<strlen(bye); i++)
+    else
     {
+        index=0;
+        printf("\n\n\n\n\n\n");
+        char bye []= "\t\t\t\t\tG A M E O V E R\n\n\n\n\t\t\t\t     Thank you for playing.";
+        for (int i=0; i<strlen(bye); i++)
+        {
 
-        printf("%c",bye[i]);
-        fflush(stdout);
-        usleep(100);
+            printf("%c",bye[i]);
+            fflush(stdout);
+            usleep(100);
 
 
-        system(color);
+            system(color);
 
-        index++;
-        //color[6]=hex[(index)%6];
-        color[7]=hex[(index+1)%6];
-    }
+            index++;
+            //color[6]=hex[(index)%6];
+            color[7]=hex[(index+1)%6];
+        }
     }
     printf("\n\n\n\n\n");
 }

@@ -10,18 +10,19 @@
 #include "gameInterface.h"
 #include "fightFunction.h"
 
+
 int main()
 {
     srand(time(0));
-    int SenarioNumber;
+    int Senariosayi;
     char senaryoFile[20] = "test.json";
 
     welcome();
 
-    scanf("%d",&SenarioNumber);
+    scanf("%d",&Senariosayi);
 
 
-   downloadFile(SenarioNumber,senaryoFile);
+    downloadFile(Senariosayi,senaryoFile);
 
 
     Takim insan_imparatorlugu = {"insan_imparatorlugu"};
@@ -43,11 +44,11 @@ int main()
     /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
     renderInterface(insan_imparatorlugu,ork_legi);
- //   system("cls");
+
 
     openLog();
 
-    if(SenarioNumber) deleteFile(senaryoFile);
+    if(Senariosayi) deleteFile(senaryoFile);
 
     repeat();
 

@@ -218,9 +218,6 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
     vector<Texture> humanIconTextures(insan_imparatorlugu.birimSayisi);
 
 
-
-
-
     vector<Text> orcHealthTexts(ork_legi.birimSayisi);  // 4 for orc
     vector<Sprite> orcUnitIcons(ork_legi.birimSayisi);
     vector<Texture> orcIconTextures(ork_legi.birimSayisi);
@@ -259,12 +256,7 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         orcHealthTexts[i].setCharacterSize(18);
         orcHealthTexts[i].setFillColor(Color::Black);
 
-
-
-
     }
-
-
 
     // Health bars setup
     vector<RectangleShape> humanHealthBars(insan_imparatorlugu.birimSayisi), humanEmptyBars(insan_imparatorlugu.birimSayisi), orcHealthBars(ork_legi.birimSayisi), orcEmptyBars(ork_legi.birimSayisi);
@@ -383,4 +375,5 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
 
         window.display();
     }
+    system("cls");
 }

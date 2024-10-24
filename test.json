@@ -6,10 +6,10 @@
             "saldiri_gelistirmesi": 3
         },
         "birimler": {
-            "varg_binicileri": 1000,
+            "varg_binicileri": 970,
             "mizrakcilar": 1000,
             "ork_dovusculeri": 1000,
-            "troller": 1000
+            "troller": 900
         }
     },
     "insan_imparatorlugu": {
@@ -18,8 +18,8 @@
         },
         "birimler": {
             "suvariler": 1000,
-            "okcular": 700,
-            "piyadeler": 600,
+            "okcular": 1000,
+            "piyadeler": 1000,
             "kusatma_makineleri": 1000
         },
         "kahramanlar": ["Yavuz_Sultan_Selim"],
