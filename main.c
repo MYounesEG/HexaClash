@@ -12,6 +12,7 @@
 
 int main()
 {
+    srand(time(0));
     int SenarioNumber;
     char senaryoFile[20] = "test.json";
 
@@ -42,7 +43,7 @@ int main()
     /**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**/
 
     renderInterface(insan_imparatorlugu,ork_legi);
-
+ //   system("cls");
 
     openLog();
 

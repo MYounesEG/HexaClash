@@ -1,3 +1,4 @@
+//M.cpp
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <vector>
@@ -7,8 +8,9 @@
 #include "classes.h"
 #include "gameInterface.h"
 
-using namespace std;
 using namespace sf;
+using namespace std;
+
 
 // Constants for hexagon size and spacing
 const float HEX_SIZE = 30.0f;
@@ -17,8 +19,8 @@ const float SPACING = 20.0f;
 // Convert hexagonal grid coordinates to pixel coordinates
 Vector2f hexToPixel(int q, int r, float offsetX, float offsetY, float hexSize, float spacing)
 {
-    float x = hexSize * 3.0f / 2.0f * q;  // Horizontal distance
-    float y = hexSize * sqrt(3) * r; // Vertical distance
+    float x = hexSize * 3.0f / 2.0f * q;   // Horizontal distance
+    float y = hexSize * sqrt(3) * r;       // Vertical distance
 
     // Stagger for odd rows
     if (q % 2 != 0) y += hexSize * sqrt(3) / 2.0f;
@@ -43,7 +45,7 @@ CircleShape createHexagon(float x, float y, float hexSize)
 }
 
 // Load and place an image at a specific grid position
-Sprite loadImageAt(int row, int col, const string& imageName, float offsetX, float offsetY, float scaleFactor, float hexSize, float spacing)
+Sprite loadImageAt(int row, int col, const string imageName, float offsetX, float offsetY, float scaleFactor, float hexSize, float spacing)
 {
     Texture* texture = new Texture();
     if (!texture->loadFromFile(imageName)) throw runtime_error("Failed to load image: " + imageName);
@@ -133,14 +135,14 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
     bgSprite.setTexture(bgTexture);
     bgSprite.setScale(window.getSize().x / bgSprite.getLocalBounds().width, window.getSize().y / bgSprite.getLocalBounds().height);
     vector<Sprite> mainCharacters;
-        // Load heroes and monsters
-        vector<string> orkImagePaths = {"images/" + string(ork_legi.kahramanlar[0].isim) + ".png", "images/" + string(ork_legi.canavarlar[0].isim) + ".png"};
-        vector<string> humanImagePaths = {"images/" + string(insan_imparatorlugu.kahramanlar[0].isim) + ".png", "images/" + string(insan_imparatorlugu.canavarlar[0].isim) + ".png"};
+    // Load heroes and monsters
+    vector<string> orkImagePaths = {"images/" + string(ork_legi.kahramanlar[0].isim) + ".png", "images/" + string(ork_legi.canavarlar[0].isim) + ".png"};
+    vector<string> humanImagePaths = {"images/" + string(insan_imparatorlugu.kahramanlar[0].isim) + ".png", "images/" + string(insan_imparatorlugu.canavarlar[0].isim) + ".png"};
 
-        Texture orkHeroTexture, orkMonsterTexture, humanHeroTexture, humanMonsterTexture;
-        Sprite orkHeroSprite, orkMonsterSprite, humanHeroSprite, humanMonsterSprite;
+    Texture orkHeroTexture, orkMonsterTexture, humanHeroTexture, humanMonsterTexture;
+    Sprite orkHeroSprite, orkMonsterSprite, humanHeroSprite, humanMonsterSprite;
 
-    if(insan_imparatorlugu.kahramanSayisi||insan_imparatorlugu.canavarSayisi||ork_legi.kahramanSayisi||ork_legi.canavarSayisi)
+    if(ork_legi.kahramanSayisi)
     {
 
         // Ork monster
@@ -166,6 +168,9 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         orkHeroSprite.setPosition(window.getSize().x - 500, offsetY + 500);
         mainCharacters.push_back(orkHeroSprite);
 
+    }
+    if(insan_imparatorlugu.kahramanSayisi)
+    {
 
         // Human monster
         if (!humanMonsterTexture.loadFromFile(humanImagePaths[1]))
@@ -189,8 +194,10 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         humanHeroSprite.setScale(scaleFactor * 2.2f, scaleFactor * 2.2f);
         humanHeroSprite.setPosition(offsetX - 550, offsetY + 500);
         mainCharacters.push_back(humanHeroSprite);
-
     }
+
+
+
 
 
     // Load a font for health percentage text
@@ -230,7 +237,7 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         humanUnitIcons[i].setScale(0.2f, 0.2f);
 
         humanHealthTexts[i].setFont(font);
-        humanHealthTexts[i].setString(to_string((int)insan_imparatorlugu.birimler[i].sayi)); // Display health as percentage
+        humanHealthTexts[i].setString("%"+to_string((int)(insan_imparatorlugu.birimler[i].saglik*100/insan_imparatorlugu.birimler[i].orjinal_saglik))); // Display health as percentage
         humanHealthTexts[i].setCharacterSize(18);
         humanHealthTexts[i].setFillColor(Color::Black);
 
@@ -239,12 +246,9 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         orcUnitIcons[i].setScale(0.2f, 0.2f);
 
         orcHealthTexts[i].setFont(font);
-        orcHealthTexts[i].setString(to_string((int)ork_legi.birimler[i].sayi)); // Display health as percentage
+        orcHealthTexts[i].setString("%"+to_string(((int)(ork_legi.birimler[i].saglik*100/ork_legi.birimler[i].orjinal_saglik)))); // Display health as percentage
         orcHealthTexts[i].setCharacterSize(18);
         orcHealthTexts[i].setFillColor(Color::Black);
-
-
-
 
     }
 
@@ -260,10 +264,10 @@ void renderInterface(Takim insan_imparatorlugu, Takim ork_legi)
         float yOffset = 300.0f + i * barSpacing;
 
         // Calculate health percentage
-        humanHealth = (insan_imparatorlugu.birimler[i].sayi * insan_imparatorlugu.birimler[i].saglik) /
-                      (insan_imparatorlugu.birimler[i].orjinal_sayi * insan_imparatorlugu.birimler[i].orjinal_saglik);
-        orcHealth = (ork_legi.birimler[i].sayi * ork_legi.birimler[i].saglik) /
-                    (ork_legi.birimler[i].orjinal_sayi * ork_legi.birimler[i].orjinal_saglik);
+        humanHealth = (insan_imparatorlugu.birimler[i].saglik) /
+                      (insan_imparatorlugu.birimler[i].orjinal_saglik);
+        orcHealth = (ork_legi.birimler[i].saglik) /
+                    (ork_legi.birimler[i].orjinal_saglik);
 
         if(!humanHealth)humanHealth=0.02; // gosteris
         if(!orcHealth)orcHealth=0.02; // gosteris

@@ -16,6 +16,9 @@ typedef struct Unit{
     float orjinal_sayi;
     float orjinal_saglik;
 
+    float toplamSaldiri;
+    float toplamSavunma;
+
 
 
 }Unit;
@@ -53,7 +56,7 @@ typedef struct Research{
 
 typedef struct Takim{
     char TakimName[40];
-    Unit birimler[8]; // max birim:8
+    Unit birimler[4]; // max birim:4
     int birimSayisi;
     Hero kahramanlar[9]; // max kahraman : 9
     int kahramanSayisi;

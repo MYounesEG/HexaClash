@@ -209,6 +209,7 @@ void gotoInFile(FILE*f,char line[],int start,char order[])
 
 void downloadFile(int SenarioNumber,char senaryoFile[])
 {
+
     system("cls");
     if (SenarioNumber==0)
         return;
@@ -221,14 +222,14 @@ void downloadFile(int SenarioNumber,char senaryoFile[])
 
 
 
-    char string[]="Downloading the scenario file\n\n\tplease wait.....";
+    char string[]="Downloading the scenario file\n\n\tplease wait........";
     int delay=1000;
-    for (int i=0; i<strlen(string); i++)
+    for (int i=0; i<strlen(string) - rand()%6; i++)
     {
 
         printf("%c",string[i]);
-        fflush(stdout);
-        usleep(delay);
+  //      fflush(stdout);
+  //      usleep(delay);
         if(i==41)
             delay*=1000;
     }
@@ -361,7 +362,6 @@ void openLog(){
 
     system("log.txt");
 
-    sleep(2);
 
     system("pause");
 
@@ -373,6 +373,7 @@ void repeat()
     char hex[]="47BCDE",index=0;
     char color[]="color 00";
     system("cls");
+
     char str []= "\n\n\n\n\t\t\t\t\tThe war is end :) \n\n\n\n\t\t\t\t   Want to play again ? (1/0): ";
 
     for (int i=0; i<strlen(str); i++)

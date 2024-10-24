@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1729532028 source:c:\users\administrator\desktop\bir test\whysfml\gameinterface.cpp
+1729724860 source:c:\users\administrator\desktop\bir test\whysfml\gameinterface.cpp
 	<SFML/Graphics.hpp>
 	<cmath>
 	<vector>
@@ -427,11 +427,11 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1729500845 c:\users\administrator\desktop\bir test\whysfml\classes.h
+1729716604 c:\users\administrator\desktop\bir test\whysfml\classes.h
 
 1729500898 c:\users\administrator\desktop\bir test\whysfml\gameinterface.h
 
-1729638633 source:c:\users\administrator\desktop\bir test\whysfml\main.c
+1729759452 source:c:\users\administrator\desktop\bir test\whysfml\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -444,7 +444,7 @@
 	"gameInterface.h"
 	"fightFunction.h"
 
-1729638877 c:\users\administrator\desktop\bir test\whysfml\functions.h
+1729759505 c:\users\administrator\desktop\bir test\whysfml\functions.h
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -461,7 +461,7 @@
 	<ctype.h>
 	"classes.h"
 
-1729637348 c:\users\administrator\desktop\bir test\whysfml\fightfunction.h
+1729763303 c:\users\administrator\desktop\bir test\whysfml\fightfunction.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
