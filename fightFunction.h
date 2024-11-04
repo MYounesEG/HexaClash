@@ -304,6 +304,7 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 
 void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 {
+    System("del savas_sim.txt");
     FILE* file = fopen("savas_sim.txt","w");
 
     UpdateCriticChance(insan_imparatorlugu,ork_legi,file);
