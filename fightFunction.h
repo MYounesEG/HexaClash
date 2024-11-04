@@ -9,7 +9,7 @@ bool isIn(char string1[], char string2[]);
 int checkWiner(Takim* insanImparatorlugu, Takim* OrkLegi, FILE* file);
 void UpdateCriticChance(Takim* insanImparatorlugu,Takim* OrcLejyonu,FILE* file);
 float netDamage(float totalAct,float totalDefence); //net hasar icin
-void updateAttactDefence(Takim* team1, Takim* team2, FILE* file);    //yorgunluga gore saldiri ve savunma durumunun guncellenmesi
+void updateAttactDefence(Takim* team1, Takim* team2);    //yorgunluga gore saldiri ve savunma durumunun guncellenmesi
 void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file);
 void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi);
 
@@ -133,20 +133,17 @@ float netDamage(float totalAct,float totalDefence) //net hasar icin
     return totalAct *(1-(totalDefence / totalAct));
 }
 
-void updateAttactDefence(Takim* team1, Takim* team2,FILE* file)//yorgunluga gore saldiri ve savunma durumunun guncellenmesi
+void updateAttactDefence(Takim* team1, Takim* team2)//yorgunluga gore saldiri ve savunma durumunun guncellenmesi
 {
-    fprintf(file,"\nYourgunluk hesaplama !\n");
     for(int i=0; i<team1->birimSayisi; i++)
     {
         team1->birimler[i].saldiri *= 0.9;
         team1->birimler[i].savunma *= 0.9;
-        fprintf(file,"%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team1->birimler[i].isim,team1->birimler[i].saldiri,team1->birimler[i].savunma);
-    }
+   }
     for(int i=0; i<team2->birimSayisi; i++)
     {
         team2->birimler[i].saldiri *= 0.9;
         team2->birimler[i].savunma *= 0.9;
-        fprintf(file,"%s :\n\tsaldiri = %0.f\n\tsavunma = %0.f",team2->birimler[i].isim,team2->birimler[i].saldiri,team2->birimler[i].savunma);
 
     }
 
@@ -304,9 +301,12 @@ void SaldiriSavunma(Takim* saldiran,Takim* savunan,int step, FILE* file)
 
 void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
 {
-    System("del savas_sim.txt");
-    FILE* file = fopen("savas_sim.txt","w");
-
+    system("del savas_sim.txt > nul 2>&1");
+    FILE* file = fopen("savas_sim.txt", "w");
+    if (file == NULL) {
+        perror("savas_sim dosyasi acilmadi !");
+        exit(1);
+    }
     UpdateCriticChance(insan_imparatorlugu,ork_legi,file);
     int step = 0;
     do
@@ -318,7 +318,7 @@ void FIGHT(Takim* insan_imparatorlugu,Takim* ork_legi)
             break;
 
         if((step)%5==0)
-            updateAttactDefence(insan_imparatorlugu,ork_legi,file);
+            updateAttactDefence(insan_imparatorlugu,ork_legi);
 
         SaldiriSavunma(ork_legi,insan_imparatorlugu,step,file);
         step++;

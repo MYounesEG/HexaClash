@@ -19,7 +19,7 @@ int  getValue(char line[]);                                  // return the integ
 void gotoLine(FILE*f,char line[],int start,char order[]);    // go to the line where include the "order" (not : searching will start from the "start" point in the file)
 void gotoChar(FILE*f,char order);                            // get the cursor to the place of "order" (not : searching will start from the cursor position)
 void nextLine(FILE *f,char line[]);                          // get the next line
-void downloadFile(int Senariosayi,char fileName[]);        // download the scenario file using the sayi
+void downloadFile(int Senariosayi,char fileName[]);          // download the scenario file using the sayi
 void deleteFile(char senaryoFile[]);                         // deleting file the scenario file using the fileName
 void readTakim(Takim* team,char fileName[]);                 // reading all the team informations from the scenario file
 void openLog();                                              // open the log file
@@ -30,7 +30,7 @@ void welcome()
 {
 
     system("cls");
-    char hex[]="47BCDE13",index=0;
+    char hex[]="123456789ABCDE",index=0;
     char color[]="color 00";
 
     printf("Created by:\n\n\n\n@Phoneix369\n\n@MYounesEG\n\n\n\n\n\t\t\t");
@@ -44,18 +44,22 @@ void welcome()
     char string[]="W E L C O M E   ;)";
     for (int i=0; i<strlen(string); i++)
     {
-
         printf("%c",string[i]);
         fflush(stdout);
-        usleep(1000);
-
-
-        system(color);
 
         index++;
-        //color[6]=hex[(index)%9];
-        color[7]=hex[(index+1)%9];
+        //color[6]=hex[(index)%15];
+        color[7]=hex[(index+1)%15];
+        system(color);
+        usleep(35);
+
+        index++;
+        //color[6]=hex[(index)%15];
+        color[7]=hex[(index+1)%15];
+        system(color);
+        usleep(35);
     }
+    system("color 4");
 
     sleep(3);
 
@@ -69,15 +73,20 @@ void welcome()
 
         printf("%c",ask[i]);
         fflush(stdout);
-        usleep(40);
-
-
-        system(color);
 
         index++;
-        //   color[6]=hex[(index)%6];
-        color[7]=hex[(index+1)%6];
+        //color[6]=hex[(index)%9];
+        color[7]=hex[(index+1)%9];
+        system(color);
+        usleep(35);
+
+        index++;
+        //color[6]=hex[(index)%9];
+        color[7]=hex[(index+1)%9];
+        system(color);
+        usleep(35);
     }
+    system("color 4");
 
 }
 
@@ -227,8 +236,8 @@ void downloadFile(int Senariosayi,char senaryoFile[])
     {
 
         printf("%c",string[i]);
-              fflush(stdout);
-              usleep(delay);
+        fflush(stdout);
+        usleep(delay);
         if(i==41)
             delay*=1000;
     }
@@ -363,15 +372,13 @@ void openLog()
     system("savas_sim.txt");
 
 
-    system("pause");
-
 }
 
 void repeat()
 {
 
-    char hex[]="47BCDE13",index=0;
-    char color[]="color 00";
+    char hex[]="123456789ABCDEF",color[]="color 00";
+    int index=0;
     system("cls");
 
     char str []= "\n\n\n\n\t\t\t\t\tThe war is end :) \n\n\n\n\t\t\t\t   Want to play again ? (1/0): ";
@@ -381,14 +388,18 @@ void repeat()
 
         printf("%c",str[i]);
         fflush(stdout);
-        usleep(70);
-
-
-        system(color);
 
         index++;
-        //color[6]=hex[(index)%9];
-        color[7]=hex[(index+1)%9];
+        //color[6]=hex[(index)%15];
+        color[7]=hex[(index+1)%15];
+        system(color);
+        usleep(35);
+
+        index++;
+        //color[6]=hex[(index)%15];
+        color[7]=hex[(index+1)%15];
+        system(color);
+        usleep(35);
     }
 
     int again;
@@ -402,7 +413,6 @@ void repeat()
     }
     else
     {
-        index=0;
         printf("\n\n\n\n\n\n");
         char bye []= "\t\t\t\t\tG A M E O V E R\n\n\n\n\t\t\t\t     Thank you for playing.";
         for (int i=0; i<strlen(bye); i++)
@@ -410,14 +420,18 @@ void repeat()
 
             printf("%c",bye[i]);
             fflush(stdout);
-            usleep(100);
-
-
-            system(color);
 
             index++;
-            //color[6]=hex[(index)%6];
-            color[7]=hex[(index+1)%6];
+            //color[6]=hex[(index)%15];
+            color[7]=hex[(index+1)%15];
+            system(color);
+            usleep(35);
+
+            index++;
+            //color[6]=hex[(index)%15];
+            color[7]=hex[(index+1)%15];
+            system(color);
+            usleep(35);
         }
     }
     printf("\n\n\n\n\n");

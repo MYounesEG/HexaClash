@@ -469,3 +469,55 @@
 	<stdbool.h>
 	"classes.h"
 
+1729979069 source:c:\users\administrator\desktop\main\whysfml\gameinterface.cpp
+	<SFML/Graphics.hpp>
+	<cmath>
+	<vector>
+	<iostream>
+	<cstring>
+	<ctime>
+	"classes.h"
+	"gameInterface.h"
+
+1729799515 c:\users\administrator\desktop\main\whysfml\classes.h
+
+1729500898 c:\users\administrator\desktop\main\whysfml\gameinterface.h
+
+1730715365 source:c:\users\administrator\desktop\main\whysfml\main.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<ctype.h>
+	<windows.h>
+	<unistd.h>
+	"classes.h"
+	"functions.h"
+	"gameInterface.h"
+	"fightFunction.h"
+
+1730368579 c:\users\administrator\desktop\main\whysfml\functions.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<ctype.h>
+	<windows.h>
+	"classes.h"
+	"readfunctions.h"
+
+1729799515 c:\users\administrator\desktop\main\whysfml\readfunctions.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"classes.h"
+
+1730716193 c:\users\administrator\desktop\main\whysfml\fightfunction.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<stdbool.h>
+	"classes.h"
+
