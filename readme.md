@@ -150,19 +150,19 @@ g++ -std=c++11 main.c gameInterface.cpp -o HexaClash -lsfml-graphics -lsfml-wind
 ## Project Structure
 ```mathematica
 Prolab1/
-├── bin/                # Compiled binaries and SFML DLLs
-├── fonts/              # Font files (e.g., Arial.ttf)
-├── images/             # Unit, hero, monster, and background images
-├── json/               # JSON files for unit types, heroes, monsters, and research
-├── music/              # Background music (music.wav)
-├── obj/                # Object files (generated during compilation)
-├── src/                # Source code files
-│   ├── classes.h       # Data structures for units, heroes, monsters, and teams
-│   ├── fightFunction.h # Battle simulation logic
-│   ├── functions.h     # Utility functions for file handling and user interaction
+├── bin/                  # Compiled binaries and SFML DLLs
+├── fonts/                # Font files (e.g., Arial.ttf)
+├── images/               # Unit, hero, monster, and background images
+├── json/                 # JSON files for unit types, heroes, monsters, and research
+├── music/                # Background music (music.wav)
+├── obj/                  # Object files (generated during compilation)
+├── src/                  # Source code files
+│   ├── classes.h         # Data structures for units, heroes, monsters, and teams
+│   ├── fightFunction.h   # Battle simulation logic
+│   ├── functions.h       # Utility functions for file handling and user interaction
 │   ├── gameInterface.cpp # Graphical interface implementation
-│   ├── main.c          # Entry point of the program
-├── README.md           # Project documentation
+│   ├── main.c            # Entry point of the program
+├── README.md             # Project documentation
 ```
 
 ## JSON File Format
