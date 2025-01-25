@@ -216,4 +216,34 @@ The project uses JSON files to define scenarios. Here's an example structure:
 
 <hr>
 
+## Collaborators
+
+<ul>
+  <li>
+    <p>
+      <strong
+        ><a
+          href="https://github.com/MYounesEG"
+          target="_blank"
+          rel="noreferrer"
+          >MYounes</a
+        ></strong
+      >: JSON file parsing and unit data management.
+    </p>
+  </li>
+  <li>
+    <p>
+      <strong
+        ><a
+          href="https://github.com/MerveSevim44"
+          target="_blank"
+          rel="noreferrer"
+          >Merve Sevim</a
+        ></strong
+      >: SFML integration and UI design.
+    </p>
+  </li>
+</ul>
+
+
 # Enjoy the HexaClash simulation! 🎮
