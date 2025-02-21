@@ -149,7 +149,7 @@ g++ -std=c++11 main.c gameInterface.cpp -o HexaClash -lsfml-graphics -lsfml-wind
 
 ## Project Structure
 ```mathematica
-Prolab1/
+HexaClash/
 ├── bin/                  # Compiled binaries and SFML DLLs
 ├── fonts/                # Font files (e.g., Arial.ttf)
 ├── images/               # Unit, hero, monster, and background images
